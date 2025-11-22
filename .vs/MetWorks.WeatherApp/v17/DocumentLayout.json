@@ -1,0 +1,448 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\JackM\\source\\repos\\MetWorks\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\fixtures\\diagnostics.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\fixtures\\diagnostics.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\primitivearrayvalidatortests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\primitivearrayvalidatortests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\metworks.validation.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\metworks.validation.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\descriptors\\elementdescriptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\descriptors\\elementdescriptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.diagnostics\\diagnostic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|solutionrelative:src\\core.diagnostics\\diagnostic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.diagnostics\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|solutionrelative:src\\core.diagnostics\\dependencyinjection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\validation.exchange\\primitivearrayvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|solutionrelative:src\\validation.exchange\\primitivearrayvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\modelsassemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\modelsassemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\descriptors\\userpreset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\descriptors\\userpreset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\descriptors\\widgetdescriptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\descriptors\\widgetdescriptor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\diagnosticsregistrytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\diagnosticsregistrytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\fixtures\\diagnostics-sample.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\fixtures\\diagnostics-sample.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.diagnostics\\diagnosticsregistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|solutionrelative:src\\core.diagnostics\\diagnosticsregistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|c:\\users\\jackm\\source\\repos\\metworks\\tests\\validation.tests\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D18E2AE4-E2E9-4E68-916C-F9042D5F6566}|tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj|solutionrelative:tests\\validation.tests\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\validation.exchange\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|solutionrelative:src\\validation.exchange\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.diagnostics\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|solutionrelative:src\\core.diagnostics\\globalusings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.models\\metworks.core.models.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{459EB58D-A21F-4676-84B0-09D85EC09C93}|src\\Core.Models\\MetWorks.Core.Models.csproj|solutionrelative:src\\core.models\\metworks.core.models.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\validation.exchange\\metworks.validation.exchange.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{CFB4AB51-891F-407B-8A23-B4A3F59B1991}|src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj|solutionrelative:src\\validation.exchange\\metworks.validation.exchange.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|c:\\users\\jackm\\source\\repos\\metworks\\src\\core.diagnostics\\metworks.core.diagnostics.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2DA6053C-03DB-4D79-B207-E6944D28DD04}|src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj|solutionrelative:src\\core.diagnostics\\metworks.core.diagnostics.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{dcc4ea97-1c0c-482b-b205-e541c0df9728}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Diagnostics.json",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\fixtures\\Diagnostics.json",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\fixtures\\Diagnostics.json",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\fixtures\\Diagnostics.json",
+              "RelativeToolTip": "tests\\Validation.Tests\\fixtures\\Diagnostics.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-21T22:36:42.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PrimitiveArrayValidatorTests.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\PrimitiveArrayValidatorTests.cs",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\PrimitiveArrayValidatorTests.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\PrimitiveArrayValidatorTests.cs",
+              "RelativeToolTip": "tests\\Validation.Tests\\PrimitiveArrayValidatorTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBAAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T22:20:45.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PrimitiveArrayValidator.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\PrimitiveArrayValidator.cs",
+              "RelativeDocumentMoniker": "src\\Validation.Exchange\\PrimitiveArrayValidator.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\PrimitiveArrayValidator.cs",
+              "RelativeToolTip": "src\\Validation.Exchange\\PrimitiveArrayValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T22:19:59.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ModelsAssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\ModelsAssemblyInfo.cs",
+              "RelativeDocumentMoniker": "src\\Core.Models\\ModelsAssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\ModelsAssemblyInfo.cs",
+              "RelativeToolTip": "src\\Core.Models\\ModelsAssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:55:44.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ElementDescriptor.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\ElementDescriptor.cs",
+              "RelativeDocumentMoniker": "src\\Core.Models\\Descriptors\\ElementDescriptor.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\ElementDescriptor.cs",
+              "RelativeToolTip": "src\\Core.Models\\Descriptors\\ElementDescriptor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:55:27.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserPreset.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\UserPreset.cs",
+              "RelativeDocumentMoniker": "src\\Core.Models\\Descriptors\\UserPreset.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\UserPreset.cs",
+              "RelativeToolTip": "src\\Core.Models\\Descriptors\\UserPreset.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:55:13.848Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "WidgetDescriptor.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\WidgetDescriptor.cs",
+              "RelativeDocumentMoniker": "src\\Core.Models\\Descriptors\\WidgetDescriptor.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\Descriptors\\WidgetDescriptor.cs",
+              "RelativeToolTip": "src\\Core.Models\\Descriptors\\WidgetDescriptor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:54:54.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DiagnosticsRegistryTests.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\DiagnosticsRegistryTests.cs",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\DiagnosticsRegistryTests.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\DiagnosticsRegistryTests.cs",
+              "RelativeToolTip": "tests\\Validation.Tests\\DiagnosticsRegistryTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:52:19.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "diagnostics-sample.json",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\fixtures\\diagnostics-sample.json",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\fixtures\\diagnostics-sample.json",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\fixtures\\diagnostics-sample.json",
+              "RelativeToolTip": "tests\\Validation.Tests\\fixtures\\diagnostics-sample.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-21T21:51:22.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DependencyInjection.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\DependencyInjection.cs",
+              "RelativeDocumentMoniker": "src\\Core.Diagnostics\\DependencyInjection.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\DependencyInjection.cs",
+              "RelativeToolTip": "src\\Core.Diagnostics\\DependencyInjection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:48:56.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DiagnosticsRegistry.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\DiagnosticsRegistry.cs",
+              "RelativeDocumentMoniker": "src\\Core.Diagnostics\\DiagnosticsRegistry.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\DiagnosticsRegistry.cs",
+              "RelativeToolTip": "src\\Core.Diagnostics\\DiagnosticsRegistry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:48:16.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Diagnostic.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\Diagnostic.cs",
+              "RelativeDocumentMoniker": "src\\Core.Diagnostics\\Diagnostic.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\Diagnostic.cs",
+              "RelativeToolTip": "src\\Core.Diagnostics\\Diagnostic.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:47:31.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\GlobalUsings.cs",
+              "RelativeToolTip": "tests\\Validation.Tests\\GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:46:47.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "src\\Validation.Exchange\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\GlobalUsings.cs",
+              "RelativeToolTip": "src\\Validation.Exchange\\GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:46:30.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "src\\Core.Models\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\GlobalUsings.cs",
+              "RelativeToolTip": "src\\Core.Models\\GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:44:26.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GlobalUsings.cs",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\GlobalUsings.cs",
+              "RelativeDocumentMoniker": "src\\Core.Diagnostics\\GlobalUsings.cs",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\GlobalUsings.cs",
+              "RelativeToolTip": "src\\Core.Diagnostics\\GlobalUsings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T21:43:23.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MetWorks.Validation.Tests",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj",
+              "RelativeDocumentMoniker": "tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj",
+              "RelativeToolTip": "tests\\Validation.Tests\\MetWorks.Validation.Tests.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T21:42:42.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "MetWorks.Validation.Exchange",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj",
+              "RelativeDocumentMoniker": "src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj",
+              "RelativeToolTip": "src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T21:42:12.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MetWorks.Core.Models",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\MetWorks.Core.Models.csproj",
+              "RelativeDocumentMoniker": "src\\Core.Models\\MetWorks.Core.Models.csproj",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Models\\MetWorks.Core.Models.csproj",
+              "RelativeToolTip": "src\\Core.Models\\MetWorks.Core.Models.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T21:41:57.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MetWorks.Core.Diagnostics",
+              "DocumentMoniker": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj",
+              "RelativeDocumentMoniker": "src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj",
+              "ToolTip": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj",
+              "RelativeToolTip": "src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T21:25:12.717Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1786,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1508,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 238,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3822e751-eb69-4b0e-b301-595a9e4c74d5}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

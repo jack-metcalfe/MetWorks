@@ -1,0 +1,17 @@
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Validation.Exchange.deps.json
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Validation.Exchange.dll
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Validation.Exchange.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Core.Diagnostics.dll
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Core.Models.dll
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Core.Models.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\bin\Debug\net8.0\MetWorks.Core.Diagnostics.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.csproj.AssemblyReference.cache
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.AssemblyInfoInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.AssemblyInfo.cs
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.csproj.CoreCompileInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.12707697.Up2Date
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.dll
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\refint\MetWorks.Validation.Exchange.dll
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\MetWorks.Validation.Exchange.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Validation.Exchange\obj\Debug\net8.0\ref\MetWorks.Validation.Exchange.dll

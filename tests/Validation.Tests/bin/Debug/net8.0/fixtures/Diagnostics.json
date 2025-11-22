@@ -1,0 +1,26 @@
+{
+  "SAMPLE_001": {
+    "Code": "SAMPLE_001",
+    "Severity": "Info",
+    "Message": "Sample diagnostic for tests",
+    "Remediation": "No action required"
+  },
+  "PA_MIXED_MODE": {
+    "Code": "PA_MIXED_MODE",
+    "Severity": "Error",
+    "Message": "Primitive array mixes literal values and named references",
+    "Remediation": "Make all elements either literals or named references; move mixed entries to separate arrays"
+  },
+  "PA_LITERAL_PARSE_FAILED": {
+    "Code": "PA_LITERAL_PARSE_FAILED",
+    "Severity": "Error",
+    "Message": "Literal value failed to parse consistently as a primitive",
+    "Remediation": "Ensure literals are homogeneous and parseable (ints, floats, booleans, or strings)"
+  },
+  "PA_EXPECTED_KIND_MISMATCH": {
+    "Code": "PA_EXPECTED_KIND_MISMATCH",
+    "Severity": "Error",
+    "Message": "Literal value does not match the expected primitive kind",
+    "Remediation": "Convert literals to the expected type or update the schema to accept the actual kind; consider allowCoercion when appropriate"
+  }
+}

@@ -1,0 +1,24 @@
+name: Validate Diagnostics Registry
+
+on:
+  push:
+    paths:
+      - 'diagnostics/**'
+      - '.github/scripts/**'
+  pull_request:
+    paths:
+      - 'diagnostics/**'
+      - '.github/scripts/**'
+
+jobs:
+  validate-diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/validate-diagnostics.sh
+
+      - name: Run diagnostics validation
+        run: ./.github/scripts/validate-diagnostics.sh

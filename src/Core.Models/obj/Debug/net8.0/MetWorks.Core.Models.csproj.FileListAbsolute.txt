@@ -1,0 +1,11 @@
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\bin\Debug\net8.0\MetWorks.Core.Models.deps.json
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\bin\Debug\net8.0\MetWorks.Core.Models.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\bin\Debug\net8.0\MetWorks.Core.Models.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.AssemblyInfoInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.AssemblyInfo.cs
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.csproj.CoreCompileInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\refint\MetWorks.Core.Models.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\MetWorks.Core.Models.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Core.Models\obj\Debug\net8.0\ref\MetWorks.Core.Models.dll

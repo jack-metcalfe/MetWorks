@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="7d6cec7e-4d7a-4117-b72c-a64eb4eceda3" name="JackM@GE68HX13V 2025-11-21 16:59:25" runUser="GE68HX13V\JackM" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-21T16:59:25.7314655-06:00" queuing="2025-11-21T16:59:25.7314656-06:00" start="2025-11-21T16:59:25.2714589-06:00" finish="2025-11-21T16:59:25.7351675-06:00" />
+  <TestSettings name="default" id="895e462f-b905-48af-9a3b-04ca82dd65f4">
+    <Deployment runDeploymentRoot="JackM_GE68HX13V_2025-11-21_16_59_25" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e3f93926-38c3-440a-b59f-eb591f8b0860" testId="c2e37070-c2e4-c76a-953f-6f7de9da4716" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedFloatKind_WithIntegerLiteral_AllowCoercion_NoDiagnostics" computerName="GE68HX13V" duration="00:00:00.0004138" startTime="2025-11-21T16:59:25.6718768-06:00" endTime="2025-11-21T16:59:25.6718769-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e3f93926-38c3-440a-b59f-eb591f8b0860" />
+    <UnitTestResult executionId="0c351101-2314-47f0-aecc-52ebff95687a" testId="266204ed-75c8-17cd-ab2b-0d0ab4423e77" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedIntegerKind_WithFloatLiteral_ProducesExpectedKindMismatch" computerName="GE68HX13V" duration="00:00:00.0038824" startTime="2025-11-21T16:59:25.6761414-06:00" endTime="2025-11-21T16:59:25.6761415-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0c351101-2314-47f0-aecc-52ebff95687a" />
+    <UnitTestResult executionId="876aae2d-9807-404a-ac58-0fe3f2d3a65a" testId="d59d3ac7-8fcd-37d0-529c-b986aa676fcf" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.AllNumericLiterals_ProducesNoDiagnostics" computerName="GE68HX13V" duration="00:00:00.0002811" startTime="2025-11-21T16:59:25.6721930-06:00" endTime="2025-11-21T16:59:25.6721930-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="876aae2d-9807-404a-ac58-0fe3f2d3a65a" />
+    <UnitTestResult executionId="44224086-89c6-4c93-9a83-ad57b3819ece" testId="6b7a10b3-70ce-44b1-7a1a-52af361d0cbc" testName="MetWorks.Validation.Tests.DiagnosticsRegistryTests.LoadFromFile_WithExplicitPath_LoadsDescriptors" computerName="GE68HX13V" duration="00:00:00.0148336" startTime="2025-11-21T16:59:25.6705708-06:00" endTime="2025-11-21T16:59:25.6705708-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="44224086-89c6-4c93-9a83-ad57b3819ece" />
+    <UnitTestResult executionId="6f9c2e6f-66d4-4c57-8e87-64b1641b6038" testId="68088f4c-7a15-3b4b-d8f5-f89b6ba4ef04" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedIntegerKind_AllIntegers_NoDiagnostics" computerName="GE68HX13V" duration="00:00:00.0150899" startTime="2025-11-21T16:59:25.6695615-06:00" endTime="2025-11-21T16:59:25.6695694-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f9c2e6f-66d4-4c57-8e87-64b1641b6038" />
+    <UnitTestResult executionId="3305d518-ce01-46ac-80d7-0b8cb44c0d26" testId="d7ee64fd-df13-39ac-a2e0-97fed165f805" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.MixedLiteralAndTypeKey_ProducesMixedModeDiagnostic" computerName="GE68HX13V" duration="00:00:00.0022441" startTime="2025-11-21T16:59:25.6714633-06:00" endTime="2025-11-21T16:59:25.6714633-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3305d518-ce01-46ac-80d7-0b8cb44c0d26" />
+    <UnitTestResult executionId="a37d8054-67f3-472d-9245-cbcab5333ddd" testId="294a06f9-f95b-d40f-1f1d-951784566b6c" testName="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.InconsistentLiteralKinds_ProducesParseFailedDiagnostics" computerName="GE68HX13V" duration="00:00:00.0003515" startTime="2025-11-21T16:59:25.6764870-06:00" endTime="2025-11-21T16:59:25.6764870-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a37d8054-67f3-472d-9245-cbcab5333ddd" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedIntegerKind_WithFloatLiteral_ProducesExpectedKindMismatch" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="266204ed-75c8-17cd-ab2b-0d0ab4423e77">
+      <Execution id="0c351101-2314-47f0-aecc-52ebff95687a" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="ExpectedIntegerKind_WithFloatLiteral_ProducesExpectedKindMismatch" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedFloatKind_WithIntegerLiteral_AllowCoercion_NoDiagnostics" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="c2e37070-c2e4-c76a-953f-6f7de9da4716">
+      <Execution id="e3f93926-38c3-440a-b59f-eb591f8b0860" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="ExpectedFloatKind_WithIntegerLiteral_AllowCoercion_NoDiagnostics" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.AllNumericLiterals_ProducesNoDiagnostics" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="d59d3ac7-8fcd-37d0-529c-b986aa676fcf">
+      <Execution id="876aae2d-9807-404a-ac58-0fe3f2d3a65a" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="AllNumericLiterals_ProducesNoDiagnostics" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.DiagnosticsRegistryTests.LoadFromFile_WithExplicitPath_LoadsDescriptors" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="6b7a10b3-70ce-44b1-7a1a-52af361d0cbc">
+      <Execution id="44224086-89c6-4c93-9a83-ad57b3819ece" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.DiagnosticsRegistryTests" name="LoadFromFile_WithExplicitPath_LoadsDescriptors" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.ExpectedIntegerKind_AllIntegers_NoDiagnostics" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="68088f4c-7a15-3b4b-d8f5-f89b6ba4ef04">
+      <Execution id="6f9c2e6f-66d4-4c57-8e87-64b1641b6038" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="ExpectedIntegerKind_AllIntegers_NoDiagnostics" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.InconsistentLiteralKinds_ProducesParseFailedDiagnostics" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="294a06f9-f95b-d40f-1f1d-951784566b6c">
+      <Execution id="a37d8054-67f3-472d-9245-cbcab5333ddd" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="InconsistentLiteralKinds_ProducesParseFailedDiagnostics" />
+    </UnitTest>
+    <UnitTest name="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests.MixedLiteralAndTypeKey_ProducesMixedModeDiagnostic" storage="c:\users\jackm\source\repos\metworks\tests\validation.tests\bin\debug\net8.0\metworks.validation.tests.dll" id="d7ee64fd-df13-39ac-a2e0-97fed165f805">
+      <Execution id="3305d518-ce01-46ac-80d7-0b8cb44c0d26" />
+      <TestMethod codeBase="C:\Users\JackM\source\repos\MetWorks\tests\Validation.Tests\bin\Debug\net8.0\MetWorks.Validation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="MetWorks.Validation.Tests.PrimitiveArrayValidatorTests" name="MixedLiteralAndTypeKey_ProducesMixedModeDiagnostic" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="c2e37070-c2e4-c76a-953f-6f7de9da4716" executionId="e3f93926-38c3-440a-b59f-eb591f8b0860" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="266204ed-75c8-17cd-ab2b-0d0ab4423e77" executionId="0c351101-2314-47f0-aecc-52ebff95687a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d59d3ac7-8fcd-37d0-529c-b986aa676fcf" executionId="876aae2d-9807-404a-ac58-0fe3f2d3a65a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b7a10b3-70ce-44b1-7a1a-52af361d0cbc" executionId="44224086-89c6-4c93-9a83-ad57b3819ece" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="68088f4c-7a15-3b4b-d8f5-f89b6ba4ef04" executionId="6f9c2e6f-66d4-4c57-8e87-64b1641b6038" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d7ee64fd-df13-39ac-a2e0-97fed165f805" executionId="3305d518-ce01-46ac-80d7-0b8cb44c0d26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="294a06f9-f95b-d40f-1f1d-951784566b6c" executionId="a37d8054-67f3-472d-9245-cbcab5333ddd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="7" executed="7" passed="7" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.22)&#xD;
+[xUnit.net 00:00:00.03]   Discovering: MetWorks.Validation.Tests&#xD;
+[xUnit.net 00:00:00.05]   Discovered:  MetWorks.Validation.Tests&#xD;
+[xUnit.net 00:00:00.05]   Starting:    MetWorks.Validation.Tests&#xD;
+[xUnit.net 00:00:00.10]   Finished:    MetWorks.Validation.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

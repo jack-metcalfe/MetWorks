@@ -1,0 +1,37 @@
+name: Run Tests and Publish Results
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore MetWorks.WeatherApp.sln
+
+      - name: Build
+        run: dotnet build MetWorks.WeatherApp.sln --no-restore --configuration Release
+
+      - name: Run tests (produce TRX)
+        run: |
+          # Ensure a deterministic output folder
+          RESULTS_DIR="$(pwd)/artifacts/TestResults"
+          mkdir -p "$RESULTS_DIR"
+          # Run tests and emit a TRX per test project into RESULTS_DIR
+          dotnet test MetWorks.WeatherApp.sln --no-build --logger "trx;LogFileName=results.trx" --results-directory "$RESULTS_DIR" --configuration Release
+
+      - name: Upload test results artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: artifacts/TestResults

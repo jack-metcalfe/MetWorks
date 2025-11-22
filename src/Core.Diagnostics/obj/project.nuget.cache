@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "vvdQQUcF6fY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Core.Diagnostics\\MetWorks.Core.Diagnostics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JackM\\source\\repos\\MetWorks\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

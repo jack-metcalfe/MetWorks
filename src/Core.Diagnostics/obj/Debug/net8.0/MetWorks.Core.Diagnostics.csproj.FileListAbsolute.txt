@@ -1,0 +1,12 @@
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\bin\Debug\net8.0\MetWorks.Core.Diagnostics.deps.json
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\bin\Debug\net8.0\MetWorks.Core.Diagnostics.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\bin\Debug\net8.0\MetWorks.Core.Diagnostics.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.csproj.AssemblyReference.cache
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.AssemblyInfoInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.AssemblyInfo.cs
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.csproj.CoreCompileInputs.cache
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\refint\MetWorks.Core.Diagnostics.dll
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\MetWorks.Core.Diagnostics.pdb
+C:\Users\JackM\source\repos\MetWorks\src\Core.Diagnostics\obj\Debug\net8.0\ref\MetWorks.Core.Diagnostics.dll

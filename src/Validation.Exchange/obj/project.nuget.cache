@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ishDqKEUmhw=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\JackM\\source\\repos\\MetWorks\\src\\Validation.Exchange\\MetWorks.Validation.Exchange.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JackM\\source\\repos\\MetWorks\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
