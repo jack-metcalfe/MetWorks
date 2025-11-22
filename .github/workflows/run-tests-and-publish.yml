@@ -35,8 +35,17 @@ jobs:
           mkdir -p "$RESULTS_DIR"
           dotnet test MetWorks.WeatherApp.sln --no-build --logger "trx;LogFileName=results.trx" --results-directory "$RESULTS_DIR" --configuration Release
 
-      - name: Upload test results artifact
+      - name: Upload test results artifact (act-friendly)
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: artifacts/TestResults
+
+      - name: Save test results locally for act
+        if: env.ACT == 'true'
+        run: |
+          echo "Running under act — keeping artifacts in ./artifacts/TestResults for local inspection"
+          mkdir -p artifacts/act-run/TestResults
+          cp -r artifacts/TestResults/* artifacts/act-run/TestResults/ || true
+          ls -la artifacts/act-run/TestResults || true
