@@ -1,1 +1,69 @@
-# (paste the YAML content from the "Suggested workflow" block above here)
+name: Run Tests and Publish Results
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore solutions
+        run: |
+          find . -name '*.sln' -print0 | xargs -0 -n1 dotnet restore
+
+      - name: Build solutions
+        run: |
+          find . -name '*.sln' -print0 | xargs -0 -n1 dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/artifacts/TestResults
+          if [ -d tests ]; then
+            find tests -name '*.csproj' -print0 | xargs -0 -n1 dotnet test --no-build --configuration Release --logger trx --results-directory $GITHUB_WORKSPACE/artifacts/TestResults
+          else
+            echo "No tests directory found"
+          fi
+
+      - name: Save test results locally for act
+        if: ${{ env.ACT }}
+        run: |
+          echo "Listing test results for act..."
+          ls -la $GITHUB_WORKSPACE/artifacts/TestResults || true
+
+      - name: Copy newest TRX to latest.trx (act only)
+        if: ${{ env.ACT }}
+        run: |
+          latest=$(ls -t $GITHUB_WORKSPACE/artifacts/TestResults/*.trx | head -n1 || true)
+          if [ -n "$latest" ]; then
+            echo "Newest TRX is $latest"
+            cp -v "$latest" $GITHUB_WORKSPACE/artifacts/TestResults/latest.trx
+          else
+            echo "No TRX files found"
+          fi
+
+      - name: Upload Test Results
+        if: ${{ !env.ACT }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: $GITHUB_WORKSPACE/artifacts/TestResults
