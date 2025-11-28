@@ -15,33 +15,40 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+
+      - name: Fail if vendored packages present
+        run: |
+          if [ -d packages ]; then
+            echo "Vendored packages/ directory present. Remove it and use PackageReference and the global NuGet cache." >&2
+            exit 1
+          fi
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/Directory.Packages.props') }}
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - name: Restore solutions
-        run: |
-          find . -name '*.sln' -print0 | xargs -0 -n1 dotnet restore
+      - name: Restore top-level solution
+        run: dotnet restore MetWorks.sln
 
-      - name: Build solutions
-        run: |
-          find . -name '*.sln' -print0 | xargs -0 -n1 dotnet build --configuration Release --no-restore
+      - name: Build top-level solution
+        run: dotnet build MetWorks.sln --configuration Release --no-restore
 
       - name: Run tests
         run: |
           mkdir -p $GITHUB_WORKSPACE/artifacts/TestResults
           if [ -d tests ]; then
+            # Run tests per test project to preserve TRX outputs
             find tests -name '*.csproj' -print0 | xargs -0 -n1 dotnet test --no-build --configuration Release --logger trx --results-directory $GITHUB_WORKSPACE/artifacts/TestResults
           else
-            echo "No tests directory found"
+            # Fallback: run tests from the solution (if any)
+            dotnet test MetWorks.sln --no-build --configuration Release --logger trx --results-directory $GITHUB_WORKSPACE/artifacts/TestResults || true
           fi
 
       - name: Save test results locally for act

@@ -17,8 +17,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Fail if vendored packages present
+        run: |
+          if [ -d packages ]; then
+            echo "Vendored packages/ directory present. Remove it and use PackageReference and the global NuGet cache." >&2
+            exit 1
+          fi
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/Directory.Packages.props') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
       - name: Make script executable
         run: chmod +x .github/scripts/validate-diagnostics.sh
 
       - name: Run diagnostics validation
-        run: ./.github/scripts/validate-diagnostics.sh
+        run: bash .github/scripts/validate-diagnostics.sh
