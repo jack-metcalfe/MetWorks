@@ -53,3 +53,17 @@ All purposes use GitHub Actions - restore, build, and run tests on pushes and pu
 - To clean bins and obj artifacts locally:
     `git clean -nd X   # preview
     `git clean -fd X   # remove files (destructive)
+
+## Developer quick start
+
+- **Open the solution**: Use the top-level solution `MetWorks.sln` in the repo root.
+- **Restore, build, test**:
+  ```bash
+  dotnet restore MetWorks.sln
+  dotnet build MetWorks.sln --configuration Release
+  dotnet test MetWorks.sln --no-build    
+
+## Run diagnostics validation:
+
+export GITHUB_WORKSPACE="$(pwd)"
+SOLUTION=MetWorks.sln bash .github/scripts/validate-diagnostics.sh
