@@ -67,3 +67,39 @@ All purposes use GitHub Actions - restore, build, and run tests on pushes and pu
 
 export GITHUB_WORKSPACE="$(pwd)"
 SOLUTION=MetWorks.sln bash .github/scripts/validate-diagnostics.sh
+
+Architectural principles
+Canonical DTO project: All shared data transfer objects live in DdiCodeGen.SourceDto. This avoids duplication and ensures a single source of truth for contracts.
+
+Minimal class libraries: New libraries are created with the met-classlib template. They start clean — no implicit references, no bundled DTOs.
+
+Opt‑in references: Dependencies are added explicitly by developers using dotnet add reference or the provided helper scripts. Nothing is wired automatically, keeping assemblies small and intentional.
+
+Consistency: All .csproj files use lowercase booleans (true/false) and explicit language/version settings for clarity.
+
+Auditability: Every decision (symbols, references, defaults) is documented in the template and solution README for future contributors.
+
+Workflow for contributors
+Create a new library
+
+bash
+dotnet new met-classlib -n MyLib -o src/MyLib
+This generates a minimal .csproj with defaults (net8.0, false, enable, latest).
+
+Add references manually
+
+bash
+dotnet add src/MyLib/MyLib.csproj reference src/DdiCodeGen.SourceDto/DdiCodeGen.SourceDto.csproj
+Or use the helper scripts (add-references.sh / add-references.cmd) for convenience.
+
+Validate with CI
+
+CI builds both a plain instantiation and a reference‑enabled instantiation.
+
+This ensures templates remain DRY and reproducible.
+
+Document rationale
+
+Any new library should include a short README explaining its purpose and dependencies.
+
+This keeps onboarding smooth and avoids hidden coupling.

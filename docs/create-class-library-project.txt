@@ -1,0 +1,5 @@
+dotnet new met-classlib -n MyLib -o src/MyLib \
+  --AddProjectReferences true \
+  --ProjectReferences "src/DdiCodeGen.SourceDto/DdiCodeGen.SourceDto.csproj;src/Other.Shared/Other.Shared.csproj"
+or
+dotnet add src/MyLib/MyLib.csproj reference src/DdiCodeGen.SourceDto/DdiCodeGen.SourceDto.csproj

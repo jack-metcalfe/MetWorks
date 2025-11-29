@@ -1,0 +1,38 @@
+
+---
+
+## `.github/workflows/validate-template.yml`
+```yaml
+name: Validate Class Library Template
+
+on:
+  push:
+    paths:
+      - 'templates/dotnet-classlib-standard/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install template
+        run: dotnet new -i ./templates/dotnet-classlib-standard
+
+      - name: Instantiate default project
+        run: dotnet new met-classlib -n CiExample -o tmp/CiExample
+
+      - name: Build default project
+        run: dotnet build tmp/CiExample/CiExample.csproj --configuration Release
+
+      - name: Instantiate project with references
+        run: dotnet new met-classlib -n CiExampleWithRefs -o tmp/CiExampleWithRefs --AddProjectReferences true --ProjectReferences "src/DdiCodeGen.SourceDto/DdiCodeGen.SourceDto.csproj"
+
+      - name: Build project with references
+        run: dotnet build tmp/CiExampleWithRefs/CiExampleWithRefs.csproj --configuration Release
