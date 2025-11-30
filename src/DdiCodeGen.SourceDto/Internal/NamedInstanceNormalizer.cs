@@ -13,9 +13,9 @@ namespace DdiCodeGen.SourceDto.Internal
                 return NormalizationResult<NamedInstanceDto>.Fail(new NormalizationError("RawNamedInstanceDto is null", null));
 
             if (string.IsNullOrWhiteSpace(raw.NamedInstance))
-                return NormalizationResult<NamedInstanceDto>.Fail(new NormalizationError("NamedInstance key is missing", raw.Provenance?.Entries?.LastOrDefault()));
+                return NormalizationResult<NamedInstanceDto>.Fail(new NormalizationError("NamedInstance key is missing", raw.ProvenanceStack?.Entries?.LastOrDefault()));
 
-            var provResult = ProvenanceNormalizer.Normalize(raw.Provenance, toolId);
+            var provResult = ProvenanceNormalizer.Normalize(raw.ProvenanceStack, toolId);
             if (!provResult.IsSuccess || provResult.Value is null)
                 return NormalizationResult<NamedInstanceDto>.Fail(provResult.Errors!.ToArray());
 

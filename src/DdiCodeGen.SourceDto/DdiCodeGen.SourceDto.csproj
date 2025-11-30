@@ -5,4 +5,10 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core.Diagnostics\MetWorks.Core.Diagnostics.csproj" />
+  </ItemGroup>
 </Project>

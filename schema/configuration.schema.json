@@ -1,0 +1,238 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ddi Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "CodeGen": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "RegistryClass": { "type": "string" },
+        "GeneratedCodePath": { "type": "string" },
+        "ResourceProvider": { "type": "string" },
+        "Namespace": { "type": "string" },
+        "FailFast": { "type": "boolean" },
+        "Enums": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "EnumName": { "type": "string" },
+              "Scope": { "type": "string" },
+              "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+            }
+          }
+        },
+        "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+      }
+    },
+
+    "Assemblies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Assembly": { "type": "string" },
+          "FullName": { "type": "string" },
+          "Path": { "type": "string" },
+          "Primitive": { "type": "boolean" },
+          "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+        }
+      }
+    },
+
+    "NamedInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "NamedInstance": { "type": "string" },
+          "Type": { "type": "string" },
+          "AssignmentMode": { "type": "string" },
+          "Initializer": { "type": "string" },
+          "EagerLoad": { "type": "boolean" },
+          "ExposeAsInterfaceName": { "type": ["string", "null"] },
+          "FailFast": { "type": "boolean" },
+          "Assignments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Assignment": { "type": "string" },
+                "Value": { "type": "string" },
+                "NamedInstance": { "type": "string" },
+                "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+              }
+            }
+          },
+          "Elements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Value": { "type": "string" },
+                "NamedInstance": { "type": "string" },
+                "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+              }
+            }
+          },
+          "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+        }
+      }
+    },
+
+    "Namespaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Namespace": { "type": "string" },
+          "Interfaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Interface": { "type": "string" },
+                "Assembly": { "type": "string" },
+                "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+              }
+            }
+          },
+          "Types": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Type": {
+                  "type": "string",
+                  "description": "Namespace-qualified simple type name. No generics, no assembly tokens.",
+                  "pattern": "^(?!.*[`<>])(?!.*Version=)(?!.*Culture=)(?!.*PublicKeyToken=).+$"
+                },
+                "FullName": {
+                  "type": ["string", "null"],
+                  "description": "Reserved for assembly full names elsewhere; not to be used to encode type generics."
+                },
+                "Assembly": { "type": ["string", "null"] },
+                "TypeKind": { "type": ["string", "null"] },
+                "Constructors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "Parameters": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "Parameter": { "type": "string" },
+                            "Type": { "type": ["string", "null"] },
+                            "Interface": { "type": ["string", "null"] },
+                            "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+                          }
+                        }
+                      },
+                      "VisibilityHint": { "type": ["string", "null"] },
+                      "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+                    }
+                  }
+                },
+                "Initializers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "Initializer": { "type": "string" },
+                      "Eager": { "type": "boolean" },
+                      "Order": { "type": "integer" },
+                      "Parameters": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "Parameter": { "type": "string" },
+                            "Type": { "type": ["string", "null"] },
+                            "Interface": { "type": ["string", "null"] },
+                            "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+                          }
+                        }
+                      },
+                      "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+                    }
+                  }
+                },
+                "Attributes": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "ImplementedInterfaces": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "Assignable": { "type": "boolean" },
+                "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+              },
+              "required": ["Type"],
+              "description": "Type objects must not include generic keys or generic notation."
+            }
+          },
+          "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+        }
+      }
+    },
+
+    "SourcePath": { "type": "string" },
+    "Provenance": { "$ref": "#/definitions/ProvenanceStack" }
+  },
+
+  "definitions": {
+    "ProvenanceOrigin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "SourcePath": { "type": "string" },
+        "LineZeroBased": { "type": "integer" },
+        "ColumnZeroBased": { "type": "integer" },
+        "LogicalPath": { "type": "string" }
+      },
+      "required": ["SourcePath", "LineZeroBased", "LogicalPath"]
+    },
+
+    "ProvenanceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Origin": { "$ref": "#/definitions/ProvenanceOrigin" },
+        "Stage": { "type": "string" },
+        "Tool": { "type": "string" },
+        "When": { "type": "string", "format": "date-time" }
+      },
+      "required": ["Origin", "Stage", "Tool", "When"]
+    },
+
+    "ProvenanceStack": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Version": { "type": "integer", "minimum": 1 },
+        "Entries": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ProvenanceEntry" }
+        }
+      },
+      "required": ["Version", "Entries"]
+    }
+  }
+}

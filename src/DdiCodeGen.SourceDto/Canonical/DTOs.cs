@@ -81,8 +81,6 @@ public sealed record TypeDto(
     string FullName,
     string Assembly,
     string TypeKind,
-    int GenericArity,
-    IReadOnlyList<string> GenericParameterNames,
     IReadOnlyList<InitializerDto> Initializers,
     IReadOnlyList<string> Attributes,
     IReadOnlyList<string> ImplementedInterfaces,

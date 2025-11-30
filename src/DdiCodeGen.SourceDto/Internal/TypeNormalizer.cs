@@ -13,9 +13,9 @@ namespace DdiCodeGen.SourceDto.Internal
                 return NormalizationResult<TypeDto>.Fail(new NormalizationError("RawTypeDto is null", null));
 
             if (string.IsNullOrWhiteSpace(raw.Type))
-                return NormalizationResult<TypeDto>.Fail(new NormalizationError("Type key is missing", raw.Provenance?.Entries?.LastOrDefault()));
+                return NormalizationResult<TypeDto>.Fail(new NormalizationError("Type key is missing", raw.ProvenanceStack?.Entries?.LastOrDefault()));
 
-            var provResult = ProvenanceNormalizer.Normalize(raw.Provenance, toolId);
+            var provResult = ProvenanceNormalizer.Normalize(raw.ProvenanceStack, toolId);
             if (!provResult.IsSuccess || provResult.Value is null)
                 return NormalizationResult<TypeDto>.Fail(provResult.Errors!.ToArray());
 
@@ -45,8 +45,6 @@ namespace DdiCodeGen.SourceDto.Internal
                 FullName: raw.FullName ?? string.Empty,
                 Assembly: raw.Assembly ?? string.Empty,
                 TypeKind: raw.TypeKind ?? string.Empty,
-                GenericArity: raw.GenericArity ?? 0,
-                GenericParameterNames: raw.GenericParameterNames ?? Array.Empty<string>(),
                 Initializers: initializers,
                 Attributes: raw.Attributes ?? Array.Empty<string>(),
                 ImplementedInterfaces: raw.ImplementedInterfaces ?? Array.Empty<string>(),

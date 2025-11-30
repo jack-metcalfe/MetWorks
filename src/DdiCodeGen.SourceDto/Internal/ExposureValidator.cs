@@ -41,7 +41,7 @@ namespace DdiCodeGen.SourceDto.Internal
             string toolId)
         {
             if (canonical == null)
-                return NormalizationResult<NamedInstanceDto>.Fail(new NormalizationError("Canonical NamedInstanceDto is null", raw?.Provenance?.Entries?.LastOrDefault()));
+                return NormalizationResult<NamedInstanceDto>.Fail(new NormalizationError("Canonical NamedInstanceDto is null", raw?.ProvenanceStack?.Entries?.LastOrDefault()));
 
             if (string.IsNullOrWhiteSpace(canonical.ExposeAsInterfaceName))
                 return NormalizationResult<NamedInstanceDto>.Ok(canonical);
@@ -51,7 +51,7 @@ namespace DdiCodeGen.SourceDto.Internal
             {
                 var err = new NormalizationError(
                     $"ExposeAsInterface '{canonical.ExposeAsInterfaceName}' does not resolve to a known interface",
-                    raw?.Provenance?.Entries?.LastOrDefault());
+                    raw?.ProvenanceStack?.Entries?.LastOrDefault());
                 return NormalizationResult<NamedInstanceDto>.Fail(err);
             }
 
@@ -59,7 +59,7 @@ namespace DdiCodeGen.SourceDto.Internal
             {
                 var err = new NormalizationError(
                     $"Type '{canonical.Type}' does not implement interface '{canonical.ExposeAsInterfaceName}'",
-                    raw?.Provenance?.Entries?.LastOrDefault());
+                    raw?.ProvenanceStack?.Entries?.LastOrDefault());
                 return NormalizationResult<NamedInstanceDto>.Fail(err);
             }
 

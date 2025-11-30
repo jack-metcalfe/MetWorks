@@ -27,12 +27,10 @@ namespace DdiCodeGen.SourceDto.Tests
             var types = new List<TypeDto>
             {
                 new TypeDto(
-                    Key: "ConcreteA",
+                    Type: "ConcreteA",
                     FullName: "MyNs.ConcreteA, MyAssembly",
                     Assembly: "MyAssembly",
                     TypeKind: "Class",
-                    GenericArity: 0,
-                    GenericParameterNames: Array.Empty<string>(),
                     Initializers: Array.Empty<InitializerDto>(),
                     Attributes: Array.Empty<string>(),
                     ImplementedInterfaces: Array.Empty<string>(),
@@ -47,23 +45,23 @@ namespace DdiCodeGen.SourceDto.Tests
 
             var raw = new RawNamedInstanceDto(
                 NamedInstance: "MyInstance",
-                TypeKey: "ConcreteA",
+                Type: "ConcreteA",
                 AssignmentMode: "Singleton",
-                InitializerKey: null,
+                Initializer: null,
                 EagerLoad: false,
-                ExposeAsInterface: "IMyService",
+                ExposeAsInterfaceName: "IMyService",
                 FailFast: false,
-                Assignments: null,
-                Elements: null,
-                Provenance: null);
+                Assignments: new List<RawNamedInstanceAssignmentDto>(),
+                Elements: Array.Empty<RawNamedInstanceElementDto>(),
+                ProvenanceStack: null);
 
             var canonical = new NamedInstanceDto(
-                Key: "MyInstance",
-                TypeKey: "ConcreteA",
+                NamedInstance: "MyInstance",
+                Type: "ConcreteA",
                 AssignmentMode: "Singleton",
-                InitializerKey: null,
+                Initializer: null,
                 EagerLoad: false,
-                ExposeAsInterface: "IMyService",
+                ExposeAsInterfaceName: "IMyService",
                 FailFast: false,
                 Assignments: Array.Empty<NamedInstanceAssignmentDto>(),
                 Elements: Array.Empty<NamedInstanceElementDto>(),
@@ -89,12 +87,10 @@ namespace DdiCodeGen.SourceDto.Tests
             var types = new List<TypeDto>
             {
                 new TypeDto(
-                    Key: "ConcreteA",
+                    Type: "ConcreteA",
                     FullName: "MyNs.ConcreteA, MyAssembly",
                     Assembly: "MyAssembly",
                     TypeKind: "Class",
-                    GenericArity: 0,
-                    GenericParameterNames: Array.Empty<string>(),
                     Initializers: Array.Empty<InitializerDto>(),
                     Attributes: Array.Empty<string>(),
                     ImplementedInterfaces: new[] { "IMyService" },
@@ -109,23 +105,23 @@ namespace DdiCodeGen.SourceDto.Tests
 
             var raw = new RawNamedInstanceDto(
                 NamedInstance: "MyInstance",
-                TypeKey: "ConcreteA",
+                Type: "ConcreteA",
                 AssignmentMode: "Singleton",
-                InitializerKey: null,
+                Initializer: null,
                 EagerLoad: false,
-                ExposeAsInterface: "IMyService",
+                ExposeAsInterfaceName: "IMyService",
                 FailFast: false,
-                Assignments: null,
-                Elements: null,
-                Provenance: null);
+                Assignments: Array.Empty<RawNamedInstanceAssignmentDto>(),
+                Elements: Array.Empty<RawNamedInstanceElementDto>(),
+                ProvenanceStack: null);
 
             var canonical = new NamedInstanceDto(
-                Key: "MyInstance",
-                TypeKey: "ConcreteA",
+                NamedInstance: "MyInstance",
+                Type: "ConcreteA",
                 AssignmentMode: "Singleton",
-                InitializerKey: null,
+                Initializer: null,
                 EagerLoad: false,
-                ExposeAsInterface: "IMyService",
+                ExposeAsInterfaceName: "IMyService",
                 FailFast: false,
                 Assignments: Array.Empty<NamedInstanceAssignmentDto>(),
                 Elements: Array.Empty<NamedInstanceElementDto>(),
@@ -137,7 +133,7 @@ namespace DdiCodeGen.SourceDto.Tests
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);
-            Assert.Equal("MyInstance", result.Value!.Key);
+            Assert.Equal("MyInstance", result.Value!.NamedInstance);
         }
     }
 
