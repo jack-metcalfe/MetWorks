@@ -120,10 +120,10 @@ public sealed record NamedInstanceDto(
     string AssignmentMode,
     string? Initializer,
     bool EagerLoad,
-    string? ExposeAsInterface,   // renamed to be explicit
+    string? ExposeAsInterfaceName,   // renamed to be explicit
     bool FailFast,
-    NamedInstanceAssignmentDto[] Assignments,
-    NamedInstanceElementDto[] Elements,
+    IReadOnlyList<NamedInstanceAssignmentDto> Assignments,
+    IReadOnlyList<NamedInstanceElementDto> Elements,
     ProvenanceStack ProvenanceStack
 );
 

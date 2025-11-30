@@ -40,7 +40,7 @@ namespace DdiCodeGen.SourceDto.Internal
                 AssignmentMode: raw.AssignmentMode ?? string.Empty,
                 Initializer: raw.Initializer,
                 EagerLoad: raw.EagerLoad ?? false,
-                ExposeAsInterface: raw.ExposeAsInterface,
+                ExposeAsInterfaceName: raw.ExposeAsInterfaceName,
                 FailFast: raw.FailFast ?? false,
                 Assignments: assignments,
                 Elements: elements,
