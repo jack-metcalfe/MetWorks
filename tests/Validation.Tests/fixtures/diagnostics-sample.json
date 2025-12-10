@@ -1,8 +1,0 @@
-{
-  "SAMPLE_001": {
-    "Code": "SAMPLE_001",
-    "Severity": "Info",
-    "Message": "Sample diagnostic for tests",
-    "Remediation": "No action required"
-  }
-}

@@ -1,0 +1,17 @@
+// PrimitiveArray
+// {{GeneratedHeader}}
+#nullable enable
+{{Usings}}
+
+namespace {{Namespace}}
+{
+    // Primitive array aggregate for {{SafeKey}}
+    // Array comment: {{ArrayComment}}
+    public static partial class {{SafeKey}}_PrimitiveArrays
+    {
+        // Members
+        {{#each Members}}
+        {{this}}
+        {{/each}}
+    }
+}

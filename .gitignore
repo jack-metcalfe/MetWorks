@@ -433,3 +433,6 @@ packages/
 bin/
 obj/
 *.nupkg
+
+generated/
+

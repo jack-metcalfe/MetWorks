@@ -1,0 +1,28 @@
+// Accessor
+using System;
+
+namespace {{GeneratedNamespace}}
+{
+    public sealed class {{RegistryClassName}}
+    {
+        private readonly IServiceProvider _serviceProvider;
+
+        public {{RegistryClassName}}(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        public {{ExposeAsQualifiedInterfaceName ?? QualifiedClassName}} Get{{NamedInstanceName}}()
+        {
+            var impl = ({{ExposeAsQualifiedInterfaceName ?? QualifiedClassName}})ResolveConcrete("{{QualifiedClassName}}");
+            return impl;
+        }
+
+        private object ResolveConcrete(string typeKey)
+        {
+            var type = Type.GetType(typeKey, throwOnError: false);
+            if (type != null) return Activator.CreateInstance(type)!;
+            throw new InvalidOperationException($"Unknown type key '{typeKey}'");
+        }
+    }
+}

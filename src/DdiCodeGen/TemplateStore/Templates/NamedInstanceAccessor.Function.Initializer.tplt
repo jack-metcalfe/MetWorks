@@ -1,0 +1,23 @@
+// NamedInstanceAccessor.Function.Initializer
+// Initializer-mode accessor for {{SafeKey}}
+#nullable enable
+/* Provenance: {{Provenance}} */
+namespace {{Namespace}}
+{
+    internal static partial class {{SafeKey}}_Accessors
+    {
+        public static async System.Threading.Tasks.Task<object?> Get_{{SafeKey}}_Async(IServiceProvider provider)
+        {
+            // Emit async initializer invocation based on InitializerName and InitializerParameters
+            // Example: resolve parameters from provider and call the initializer constructor
+
+            var instance = new {{QualifiedClassName}}(
+                {{#each InitializerParameters}}
+                ({{QualifiedClassName ?? QualifiedInterfaceName}})provider.GetService(typeof({{QualifiedClassName ?? QualifiedInterfaceName}})){{#unless @last}},{{/unless}}
+                {{/each}}
+            );
+
+            return await System.Threading.Tasks.Task.FromResult<object?>(instance);
+        }
+    }
+}

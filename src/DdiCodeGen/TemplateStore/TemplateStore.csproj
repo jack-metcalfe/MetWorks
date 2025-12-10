@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Use forward slashes for cross-platform globs -->
+    <EmbeddedResource Include="Templates/**/*.tplt">
+      <!-- Optional: set a logical name so you know the resource name exactly -->
+      <LogicalName>$(AssemblyName).Templates.%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+
+    <!-- Ensure templates are not compiled as C# -->
+    <Compile Remove="Templates/**/*.tplt" />
+  </ItemGroup>
+
+  <!-- Diagnostic: fail build if any template files end up in Compile.
+       Uses MSBuild property function to evaluate StartsWith correctly. -->
+  <Target Name="FailIfTemplatesCompiled" AfterTargets="CoreCompile">
+    <ItemGroup>
+      <!-- Use the MSBuild property function form to test each Compile identity.
+           Note: we escape the backslash in the literal as '\\' inside the function call. -->
+      <_TemplatesInCompile Include="@(Compile)"
+        Condition="$([System.String]::Copy('%(Compile.Identity)').StartsWith('Templates\\'))" />
+    </ItemGroup>
+
+    <Error Text="Template files were included in Compile: @(_TemplatesInCompile)"
+      Condition="'@(_TemplatesInCompile)' != ''" />
+  </Target>
+
+</Project>

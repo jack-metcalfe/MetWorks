@@ -1,0 +1,12 @@
+// Registry.Member
+// Per-registry member fragment for {{SafeKey}}
+/* Provenance: {{Provenance}} */
+#nullable enable
+namespace {{Namespace}}
+{
+    internal static partial class {{SafeKey}}_Registry
+    {
+        // Token contract: SafeKey; Provenance; plus registry-specific tokens
+        {{MembersFragment}}
+    }
+}

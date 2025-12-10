@@ -1,0 +1,9 @@
+// PrimitiveArray.InnerMembers
+// Inner members container for PrimitiveArray outer
+#nullable enable
+/* Provenance: {{Provenance}} */
+
+// Inserted member snippets:
+{{#each Members}}
+{{this}}
+{{/each}}
