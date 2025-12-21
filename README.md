@@ -103,3 +103,14 @@ Document rationale
 Any new library should include a short README explaining its purpose and dependencies.
 
 This keeps onboarding smooth and avoids hidden coupling.
+
+## Repository Management
+
+**Renaming this repository?**  
+See the comprehensive guide: [docs/HOW-TO-RENAME-REPOSITORY.md](docs/HOW-TO-RENAME-REPOSITORY.md)
+
+The guide includes:
+- Step-by-step instructions for renaming on GitHub
+- List of all files that need to be updated
+- A helper script to find all repository references
+- Checklist for verifying the rename was successful
