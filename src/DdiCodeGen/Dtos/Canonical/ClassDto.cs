@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Validation;
+namespace DdiCodeGen.Dtos.Canonical;
 
-namespace DdiCodeGen.Dtos.Canonical
-{
     /// <summary>
     /// Canonical DTO representing a class declaration.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record ClassDto
+    public sealed record ClassDto : IHaveProvenance
     {
         public string ClassName { get; }
         public string ShortName { get; }
@@ -59,4 +54,3 @@ namespace DdiCodeGen.Dtos.Canonical
 
         private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
     }
-}

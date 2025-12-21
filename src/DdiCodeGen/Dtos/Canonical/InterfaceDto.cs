@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Canonical
 {
     /// <summary>
     /// Canonical DTO representing an interface declaration.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record InterfaceDto
+    public sealed record InterfaceDto : IHaveProvenance
     {
         public string InterfaceName { get; }
         public string QualifiedInterfaceName { get; }

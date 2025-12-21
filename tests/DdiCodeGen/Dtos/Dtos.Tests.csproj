@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\DdiCodeGen\Dtos\Dtos.csproj" />
-    <ProjectReference Include="..\..\..\src\DdiCodeGen\Generation\Generation.csproj" />
+    <ProjectReference Include="..\..\..\src\DdiCodeGen\Generator\Generator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

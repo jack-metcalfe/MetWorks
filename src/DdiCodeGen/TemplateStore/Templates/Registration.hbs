@@ -1,0 +1,24 @@
+// Registration
+// {{GeneratedHeader}}
+#nullable enable
+{{Usings}}
+
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {{Namespace}}
+{
+    // Aggregates all per-instance registration fragments into a single entry point.
+    // Call AddGeneratedServices(services) from Startup.ConfigureServices or Program.cs
+    // to register all generated services with the DI container.
+    public static class GeneratedRegistrations
+    {
+        public static void AddGeneratedServices(IServiceCollection services)
+        {
+            // Invoke each per-instance registration fragment.
+            // Each fragment handles its own service type, implementation type, and lifetime.
+            {{#each NamedInstances}}
+            {{NamedInstanceName}}_RegistrationFragment.Register_{{NamedInstanceName}}(services);
+            {{/each}}
+        }
+    }
+}

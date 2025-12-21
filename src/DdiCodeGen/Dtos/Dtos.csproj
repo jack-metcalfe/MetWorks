@@ -9,6 +9,6 @@
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Validation\DdiCodeGen.Validation.csproj" />
+    <ProjectReference Include="..\StringExtensions\StringExtensions.csproj" />
   </ItemGroup>
 </Project>

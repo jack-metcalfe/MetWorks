@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Dtos.Canonical;
-using DdiCodeGen.Dtos.Raw;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos
 {
     /// <summary>
@@ -19,20 +12,21 @@ namespace DdiCodeGen.Dtos
             var local = new List<Diagnostic>();
 
             var nsName = raw.NamespaceName ?? "<missing>";
-            if (string.IsNullOrWhiteSpace(raw.NamespaceName))
+            var nsProv = ProvenanceHelper.MakeProvenance(raw?.ProvenanceStack);
+            var nsLocation = ProvenanceHelper.BuildLocationFromRaw(raw?.ProvenanceStack) ?? "<unknown>";
+
+            if (string.IsNullOrWhiteSpace(raw?.NamespaceName))
             {
-                local.Add(new Diagnostic(DiagnosticCode.NamespaceMissingName, "NamespaceName is required.",
-                 ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.NamespaceMissingName, "NamespaceName is required.", nsProv, nsLocation);
             }
             else if (!raw.NamespaceName.IsValidNamespace())
             {
-                local.Add(new Diagnostic(DiagnosticCode.NamespaceInvalidSegment,
-                $"Namespace '{raw.NamespaceName}' is not a valid namespace.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.NamespaceInvalidSegment, $"Namespace '{raw.NamespaceName}' is not a valid namespace.", nsProv, nsLocation);
             }
 
             // Transform interfaces
             var interfaces = new List<InterfaceDto>();
-            foreach (var rawIface in raw.Interfaces ?? Array.Empty<RawInterfaceDto>())
+            foreach (var rawIface in raw?.Interfaces ?? Array.Empty<RawInterfaceDto>())
             {
                 var ifaceDto = TransformInterface(rawIface, nsName, local);
                 interfaces.Add(ifaceDto);
@@ -40,7 +34,7 @@ namespace DdiCodeGen.Dtos
 
             // Transform classes
             var classes = new List<ClassDto>();
-            foreach (var rawClass in raw.Classes ?? Array.Empty<RawClassDto>())
+            foreach (var rawClass in raw?.Classes ?? Array.Empty<RawClassDto>())
             {
                 try
                 {
@@ -49,26 +43,28 @@ namespace DdiCodeGen.Dtos
                 }
                 catch (ArgumentException aex)
                 {
-                    var loc = ProvenanceHelper.BuildLocationFromRaw(rawClass.ProvenanceStack) ?? $"{nsName}.<class>";
-                    local.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"Failed to transform class '{rawClass.ClassName ?? "<missing>"}': {aex.Message}",  loc));
+                    var locProv = ProvenanceHelper.MakeProvenance(rawClass?.ProvenanceStack);
+                    var locFallback = ProvenanceHelper.BuildLocationFromRaw(rawClass?.ProvenanceStack) ?? $"{nsName}.<class>";
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InvalidIdentifier, $"Failed to transform class '{rawClass!.ClassName ?? "<missing>"}': {aex.Message}", locProv, locFallback);
                 }
                 catch (Exception ex)
                 {
-                    var loc = ProvenanceHelper.BuildLocationFromRaw(rawClass.ProvenanceStack) ?? $"{nsName}.<class>";
-                    local.Add(new Diagnostic(DiagnosticCode.DtoValidationException, $"Unexpected error while transforming class '{rawClass.ClassName ?? "<missing>"}': {ex.Message}",  loc));
+                    var locProv = ProvenanceHelper.MakeProvenance(rawClass?.ProvenanceStack);
+                    var locFallback = ProvenanceHelper.BuildLocationFromRaw(rawClass?.ProvenanceStack) ?? $"{nsName}.<class>";
+                    DiagnosticsHelper.Add(local, DiagnosticCode.DtoValidationException, $"Unexpected error while transforming class '{rawClass!.ClassName ?? "<missing>"}': {ex.Message}", locProv, locFallback);
                 }
             }
 
-            if (raw.Diagnostics != null && raw.Diagnostics.Count > 0)
+            if (raw?.Diagnostics != null && raw.Diagnostics.Count > 0)
                 local.AddRange(raw.Diagnostics);
 
             rootDiagnostics.AddRange(local);
-
+            if (raw is null) throw new ArgumentNullException(nameof(raw));
             return new NamespaceDto(
                 namespaceName: nsName,
                 interfaces: interfaces.ToList().AsReadOnly(),
                 classes: classes.ToList().AsReadOnly(),
-                provenanceStack: ProvenanceHelper.TransformProvenanceFromRaw(raw.ProvenanceStack),
+                provenanceStack: ProvenanceHelper.MakeProvenance(raw.ProvenanceStack),
                 diagnostics: local.ToList().AsReadOnly()
             );
         }
@@ -78,167 +74,161 @@ namespace DdiCodeGen.Dtos
         {
             var local = new List<Diagnostic>();
 
-            if (string.IsNullOrWhiteSpace(raw.InterfaceName))
+            var prov = ProvenanceHelper.MakeProvenance(raw?.ProvenanceStack);
+            var locFallback = ProvenanceHelper.BuildLocationFromRaw(raw?.ProvenanceStack) ?? "<unknown>";
+
+            if (string.IsNullOrWhiteSpace(raw?.InterfaceName))
             {
-                local.Add(new Diagnostic(DiagnosticCode.InterfaceMissingName, "InterfaceName is required.",
-                 ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.InterfaceMissingName, "InterfaceName is required.", prov, locFallback);
             }
             else
             {
                 if (!raw.InterfaceName.IsValidIdentifier())
-                    local.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier,
-                    $"InterfaceName '{raw.InterfaceName}' is not a valid identifier.",
-                     ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InvalidIdentifier, $"InterfaceName '{raw.InterfaceName}' is not a valid identifier.", prov, locFallback);
+
                 if (!raw.InterfaceName.IsInterfaceName())
-                    local.Add(
-                        new Diagnostic(
-                            DiagnosticCode.InterfaceMissingName,
-                            $"InterfaceName '{raw.InterfaceName}' does not follow interface naming convention.",
-                            ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InterfaceMissingName, $"InterfaceName '{raw.InterfaceName}' does not follow interface naming convention.", prov, locFallback);
             }
 
             localDiagnostics.AddRange(local);
 
-            var shortName = raw.InterfaceName ?? "<missing>";
-            var qualified = string.IsNullOrWhiteSpace(raw.InterfaceName) ? "<missing>" : $"{parentNamespace}.{shortName}";
-
+            var shortName = raw?.InterfaceName ?? "<missing>";
+            var qualified = string.IsNullOrWhiteSpace(raw?.InterfaceName) ? "<missing>" : $"{parentNamespace}.{shortName}";
+            if (raw is null) throw new ArgumentNullException(nameof(raw));
             return new InterfaceDto(
                 interfaceName: shortName,
                 qualifiedInterfaceName: qualified,
-                provenanceStack: ProvenanceHelper.TransformProvenanceFromRaw(raw.ProvenanceStack),
+                provenanceStack: ProvenanceHelper.MakeProvenance(raw.ProvenanceStack),
                 diagnostics: local.ToList().AsReadOnly()
             );
         }
 
         // Transform a RawParameterDto into a canonical ParameterDto
-        private ParameterDto TransformParameter(RawParameterDto raw, out IReadOnlyList<Diagnostic> outDiagnostics)
+        private DdiCodeGen.Dtos.Canonical.ParameterDto TransformParameter(RawParameterDto raw, out IReadOnlyList<Diagnostic> outDiagnostics)
         {
             var local = new List<Diagnostic>();
-            var location = ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack);
 
-            // --- ParameterName validation ---
-            if (string.IsNullOrWhiteSpace(raw.ParameterName))
+            if (raw is null)
             {
-                local.Add(new Diagnostic(
-                    DiagnosticCode.ParameterMissingName,
-                    "ParameterName is required.",
-                    
-                    location));
-            }
-            else if (!raw.ParameterName.IsValidIdentifier())
-            {
-                local.Add(new Diagnostic(
-                    DiagnosticCode.InvalidIdentifier,
-                    $"ParameterName '{raw.ParameterName}' is not a valid identifier.",
-                    
-                    location));
+                DiagnosticsHelper.Add(local, DiagnosticCode.ParameterInvalidNode, "Parameter node is null.", (ProvenanceStack?)null, "<unknown>");
+                outDiagnostics = local.ToList().AsReadOnly();
+                var provNull = ProvenanceHelper.MakeProvenance((ProvenanceStack?)null, "<unknown>");
+                return new ParameterDto(
+                    parameterName: "<missing>",
+                    qualifiedClassName: null,
+                    qualifiedInterfaceName: null,
+                    isArray: false,
+                    isNullable: false,
+                    isValid: false,
+                    diagnostics: outDiagnostics,
+                    provenanceStack: provNull
+                );
             }
 
-            var hasClassToken = !string.IsNullOrWhiteSpace(raw.QualifiedClassName);
-            var hasInterfaceToken = !string.IsNullOrWhiteSpace(raw.QualifiedInterfaceName);
+            var provRaw = ProvenanceHelper.MakeProvenance(raw.ProvenanceStack);
+            var fallbackLocation = ProvenanceHelper.BuildLocationFrom(raw.ProvenanceStack) ?? "<unknown>";
+            var prov = ProvenanceHelper.MakeProvenance(provRaw, fallbackLocation);
 
-            if (hasClassToken && hasInterfaceToken)
+            try
             {
-                local.Add(new Diagnostic(
-                    DiagnosticCode.ParameterBothClassAndInterface,
-                    "Parameter cannot specify both QualifiedClassName and QualifiedInterfaceName.",
-                    
-                    location));
-            }
-            else if (!hasClassToken && !hasInterfaceToken)
-            {
-                local.Add(new Diagnostic(
-                    DiagnosticCode.ParameterMissingClassOrInterface,
-                    "Parameter must specify either QualifiedClassName or QualifiedInterfaceName.",
-                    
-                    location));
-            }
+                var paramName = string.IsNullOrWhiteSpace(raw.ParameterName) ? "<missing>" : raw.ParameterName.Trim();
 
-            // --- Base name validation (use parsed fields from Raw DTO) ---
-            if (hasClassToken)
-            {
-                if (string.IsNullOrWhiteSpace(raw.QualifiedClassBaseName))
+                if (string.IsNullOrWhiteSpace(raw.ParameterName))
+                    DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingName, "ParameterName is required.", prov, fallbackLocation);
+                else if (!paramName.IsValidIdentifier())
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InvalidIdentifier, $"ParameterName '{paramName}' is not a valid identifier.", prov, fallbackLocation);
+
+                var hasClassToken = !string.IsNullOrWhiteSpace(raw.QualifiedClassName);
+                var hasInterfaceToken = !string.IsNullOrWhiteSpace(raw.QualifiedInterfaceName);
+
+                if (hasClassToken && hasInterfaceToken)
+                    DiagnosticsHelper.Add(local, DiagnosticCode.ParameterBothClassAndInterface, "Parameter cannot specify both QualifiedClassName and QualifiedInterfaceName.", prov, fallbackLocation);
+                else if (!hasClassToken && !hasInterfaceToken)
+                    DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingClassOrInterface, "Parameter must specify either QualifiedClassName or QualifiedInterfaceName.", prov, fallbackLocation);
+
+                string? qualifiedClassBase = string.IsNullOrWhiteSpace(raw.QualifiedClassBaseName) ? null : raw.QualifiedClassBaseName.Trim();
+                string? qualifiedInterfaceBase = string.IsNullOrWhiteSpace(raw.QualifiedInterfaceBaseName) ? null : raw.QualifiedInterfaceBaseName.Trim();
+
+                if (hasClassToken)
                 {
-                    local.Add(new Diagnostic(
-                        DiagnosticCode.ParameterMissingQualifiedClass,
-                        $"QualifiedClassName '{raw.QualifiedClassName}' is empty after parsing.",
-                        
-                        location));
+                    if (string.IsNullOrWhiteSpace(qualifiedClassBase))
+                        DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingQualifiedClass, $"QualifiedClassName '{raw.QualifiedClassName}' is empty after parsing.", prov, fallbackLocation);
+                    else if (!qualifiedClassBase.IsQualifiedName())
+                        DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingQualifiedClass, $"QualifiedClassName '{raw.QualifiedClassName}' has invalid base name '{qualifiedClassBase}'.", prov, fallbackLocation);
                 }
-                else if (!raw.QualifiedClassBaseName.IsQualifiedName())
-                {
-                    local.Add(new Diagnostic(
-                        DiagnosticCode.ParameterMissingQualifiedClass,
-                        $"QualifiedClassName '{raw.QualifiedClassName}' has invalid base name '{raw.QualifiedClassBaseName}'.",
-                        
-                        location));
-                }
-            }
 
-            if (hasInterfaceToken)
+                if (hasInterfaceToken)
+                {
+                    if (string.IsNullOrWhiteSpace(qualifiedInterfaceBase))
+                        DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingQualifiedInterface, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' is empty after parsing.", prov, fallbackLocation);
+                    else if (!qualifiedInterfaceBase.IsQualifiedName())
+                        DiagnosticsHelper.Add(local, DiagnosticCode.ParameterMissingQualifiedInterface, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' has invalid base name '{qualifiedInterfaceBase}'.", prov, fallbackLocation);
+                }
+
+                if (raw.Diagnostics != null && raw.Diagnostics.Count > 0)
+                    local.AddRange(raw.Diagnostics);
+
+                outDiagnostics = local.ToList().AsReadOnly();
+
+                var dto = new ParameterDto(
+                    parameterName: paramName,
+                    qualifiedClassName: qualifiedClassBase,
+                    qualifiedInterfaceName: qualifiedInterfaceBase,
+                    isArray: (raw.QualifiedClassIsArray || raw.QualifiedInterfaceIsArray),
+                    isNullable: (raw.QualifiedClassIsContainerNullable || raw.QualifiedInterfaceIsContainerNullable),
+                    isValid: !outDiagnostics.Any(d => DiagnosticCodeInfo.GetSeverity(d.DiagnosticCode) == DiagnosticSeverity.Error),
+                    diagnostics: outDiagnostics,
+                    provenanceStack: prov
+                );
+
+                return dto;
+            }
+            catch (Exception ex)
             {
-                if (string.IsNullOrWhiteSpace(raw.QualifiedInterfaceBaseName))
-                {
-                    local.Add(new Diagnostic(
-                        DiagnosticCode.ParameterMissingQualifiedInterface,
-                        $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' is empty after parsing.",
-                        
-                        location));
-                }
-                else if (!raw.QualifiedInterfaceBaseName.IsQualifiedName())
-                {
-                    local.Add(new Diagnostic(
-                        DiagnosticCode.ParameterMissingQualifiedInterface,
-                        $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' has invalid base name '{raw.QualifiedInterfaceBaseName}'.",
-                        
-                        location));
-                }
+                DiagnosticsHelper.Add(local, DiagnosticCode.DtoValidationException, $"Exception while transforming parameter: {ex.Message}", prov, fallbackLocation);
+                outDiagnostics = local.ToList().AsReadOnly();
+
+                return new ParameterDto(
+                    parameterName: raw.ParameterName?.Trim() ?? "<missing>",
+                    qualifiedClassName: raw.QualifiedClassBaseName,
+                    qualifiedInterfaceName: raw.QualifiedInterfaceBaseName,
+                    isArray: raw.QualifiedClassIsArray || raw.QualifiedInterfaceIsArray,
+                    isNullable: raw.QualifiedClassIsContainerNullable || raw.QualifiedInterfaceIsContainerNullable,
+                    isValid: false,
+                    diagnostics: outDiagnostics,
+                    provenanceStack: prov
+                );
             }
-
-            // --- Propagate raw diagnostics ---
-            if (raw.Diagnostics != null && raw.Diagnostics.Count > 0)
-                local.AddRange(raw.Diagnostics);
-
-            outDiagnostics = local.ToList().AsReadOnly();
-
-            // --- Construct canonical ParameterDto ---
-            return new ParameterDto(
-                parameterName: raw.ParameterName ?? "<missing>",
-                qualifiedClassName: raw.QualifiedClassBaseName,
-                qualifiedInterfaceName: raw.QualifiedInterfaceBaseName,
-                isArray: raw.QualifiedClassIsArray || raw.QualifiedInterfaceIsArray,
-                isNullable: raw.QualifiedClassIsContainerNullable || raw.QualifiedInterfaceIsContainerNullable,
-                elementIsNullable: raw.QualifiedClassElementIsNullable || raw.QualifiedInterfaceElementIsNullable,
-                isValid: !outDiagnostics.Any(d => DiagnosticCodeInfo.GetSeverity(d.DiagnosticCode) == DiagnosticSeverity.Error),
-                diagnostics: outDiagnostics,
-                provenanceStack: ProvenanceHelper.TransformProvenanceFromRaw(raw.ProvenanceStack)
-            );
         }
+
         // Transform a RawClassDto into a canonical ClassDto
         private ClassDto TransformClass(RawClassDto raw, string parentNamespace, List<Diagnostic> localDiagnostics)
         {
             var local = new List<Diagnostic>();
 
+            var prov = ProvenanceHelper.MakeProvenance(raw?.ProvenanceStack);
+            var locFallback = ProvenanceHelper.BuildLocationFromRaw(raw?.ProvenanceStack) ?? "<unknown>";
+
             // 1) Short name checks
-            if (string.IsNullOrWhiteSpace(raw.ClassName))
+            if (string.IsNullOrWhiteSpace(raw?.ClassName))
             {
-                local.Add(new Diagnostic(DiagnosticCode.ClassMissingName, "ClassName is required.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.ClassMissingName, "ClassName is required.", prov, locFallback);
             }
             else
             {
                 if (raw.ClassName.Contains('.') || raw.ClassName.IsQualifiedName())
                 {
-                    local.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"ClassName '{raw.ClassName}' must be an unqualified short name; found qualified token. Define the class under the correct namespace instead.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InvalidIdentifier, $"ClassName '{raw.ClassName}' must be an unqualified short name; found qualified token. Define the class under the correct namespace instead.", prov, locFallback);
                 }
 
                 if (!raw.ClassName.IsValidIdentifier())
                 {
-                    local.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"ClassName '{raw.ClassName}' is not a valid identifier.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InvalidIdentifier, $"ClassName '{raw.ClassName}' is not a valid identifier.", prov, locFallback);
                 }
 
                 if (!raw.ClassName.IsPascalCase())
                 {
-                    local.Add(new Diagnostic(DiagnosticCode.ClassMissingName, $"ClassName '{raw.ClassName}' does not follow PascalCase convention.", ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.ClassMissingName, $"ClassName '{raw.ClassName}' does not follow PascalCase convention.", prov, locFallback);
                 }
             }
 
@@ -247,9 +237,9 @@ namespace DdiCodeGen.Dtos
 
             // If raw.InitializerParameters is null => the YAML key was missing -> emit error.
             // If it's non-null (even if empty), parse and accept empty list.
-            if (raw.InitializerParameters is null)
+            if (raw?.InitializerParameters is null)
             {
-                local.Add(new Diagnostic(DiagnosticCode.ClassMissingParameters, $"Missing required 'initializerParameters' for class '{raw.ClassName ?? "<missing>"}'.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.ClassMissingParameters, $"Missing required 'initializerParameters' for class '{raw?.ClassName ?? "<missing>"}'.", prov, locFallback);
             }
             else
             {
@@ -262,33 +252,33 @@ namespace DdiCodeGen.Dtos
                 // NOTE: do not treat an empty parameterDtos list as an error here — explicit [] is allowed.
             }
 
-            if (raw.Diagnostics != null && raw.Diagnostics.Count > 0)
+            if (raw?.Diagnostics != null && raw.Diagnostics.Count > 0)
                 local.AddRange(raw.Diagnostics);
 
             // 3) Compose canonical qualified class name (namespace + short name)
-            var shortName = raw.ClassName ?? "<missing>";
+            var shortName = raw?.ClassName ?? "<missing>";
             var qualifiedClassName = $"{parentNamespace}.{shortName}";
 
             if (!qualifiedClassName.IsQualifiedName())
             {
-                local.Add(new Diagnostic(DiagnosticCode.NamespaceInvalidSegment, $"Composed qualified class name '{qualifiedClassName}' is not a valid qualified name.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                DiagnosticsHelper.Add(local, DiagnosticCode.NamespaceInvalidSegment, $"Composed qualified class name '{qualifiedClassName}' is not a valid qualified name.", prov, locFallback);
             }
 
             // 4) Determine effective return type (qualified)
             string effectiveReturnQualified = qualifiedClassName;
 
-            if (!string.IsNullOrWhiteSpace(raw.QualifiedInterfaceName))
+            if (!string.IsNullOrWhiteSpace(raw?.QualifiedInterfaceName))
             {
                 if (!raw.QualifiedInterfaceName.IsQualifiedName())
                 {
-                    local.Add(new Diagnostic(DiagnosticCode.InterfaceMissingQualifiedName, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' is not a valid qualified name.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                    DiagnosticsHelper.Add(local, DiagnosticCode.InterfaceMissingQualifiedName, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' is not a valid qualified name.", prov, locFallback);
                 }
                 else
                 {
                     var shortIface = raw.QualifiedInterfaceName.ExtractShortName();
                     if (!shortIface.IsInterfaceName())
                     {
-                        local.Add(new Diagnostic(DiagnosticCode.InterfaceMissingQualifiedName, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' does not resolve to a valid interface name.",  ProvenanceHelper.BuildLocationFromRaw(raw.ProvenanceStack)));
+                        DiagnosticsHelper.Add(local, DiagnosticCode.InterfaceMissingQualifiedName, $"QualifiedInterfaceName '{raw.QualifiedInterfaceName}' does not resolve to a valid interface name.", prov, locFallback);
                     }
                     else
                     {
@@ -308,10 +298,10 @@ namespace DdiCodeGen.Dtos
                 shortName: shortName,
                 invokerKey: invokerKey,
                 qualifiedClassName: qualifiedClassName,
-                qualifiedInterfaceName: raw.QualifiedInterfaceName,
+                qualifiedInterfaceName: raw?.QualifiedInterfaceName,
                 returnTypeQualifiedName: effectiveReturnQualified,
                 initializerParameters: parameterDtos.ToList().AsReadOnly(),
-                provenanceStack: ProvenanceHelper.TransformProvenanceFromRaw(raw.ProvenanceStack),
+                provenanceStack: ProvenanceHelper.MakeProvenance(raw?.ProvenanceStack),
                 diagnostics: local.ToList().AsReadOnly()
             );
 

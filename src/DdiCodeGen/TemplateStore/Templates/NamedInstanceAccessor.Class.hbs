@@ -1,0 +1,34 @@
+// NamedInstanceAccessor.Class
+// {{GeneratedHeader}}
+#nullable enable
+{{Usings}}
+
+namespace {{Namespace}}
+{
+    // Provides static accessor functions for each named instance.
+    // Uses dynamic resolution to instantiate concrete types by name.
+    // Assumes parameterless constructors are available.
+    public static partial class {{RegistryClassName}}_Accessors
+    {
+        {{#each NamedInstances}}
+        // Accessor for {{NamedInstanceName}}.
+        // Returns the interface type if defined, else the concrete class.
+        public static {{QualifiedInterfaceOrClass}} Get{{NamedInstanceName}}(IServiceProvider provider)
+        {
+            var impl = ({{QualifiedInterfaceOrClass}})ResolveConcrete("{{QualifiedClassName}}");
+            return impl;
+        }
+        {{/each}}
+
+        // Resolve a concrete type by its fully qualified name.
+        // Throws InvalidOperationException if type cannot be found or instantiated.
+        private static object ResolveConcrete(string typeKey)
+        {
+            var type = Type.GetType(typeKey, throwOnError: false);
+            if (type != null) return Activator.CreateInstance(type)!;
+            throw new InvalidOperationException(
+                $"Unable to resolve type '{typeKey}' in {{RegistryClassName}}_Accessors. Ensure the type is available and has a parameterless constructor."
+            );
+        }
+    }
+}

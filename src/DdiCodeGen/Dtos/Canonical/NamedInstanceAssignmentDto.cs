@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Canonical
 {
     /// <summary>
     /// Canonical DTO representing an assignment for a named instance initializer.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record NamedInstanceAssignmentDto
+    public sealed record NamedInstanceAssignmentDto : IHaveProvenance
     {
         public string AssignmentParameterName { get; }
         public string? AssignmentValue { get; }
-        public string? NamedInstanceName { get; }
+        public string? AssignmentNamedInstanceName { get; }
         public ProvenanceStack ProvenanceStack { get; }
         public IReadOnlyList<Diagnostic> Diagnostics { get; }
 
         public NamedInstanceAssignmentDto(
             string assignmentParameterName,
             string? assignmentValue,
-            string? namedInstanceName,
+            string? assignmentNamedInstanceName,
             ProvenanceStack provenanceStack,
             IReadOnlyList<Diagnostic>? diagnostics)
         {
@@ -31,15 +26,15 @@ namespace DdiCodeGen.Dtos.Canonical
                 throw new ArgumentException("AssignmentValue cannot be empty if provided.", nameof(assignmentValue));
             AssignmentValue = assignmentValue;
 
-            if (!string.IsNullOrWhiteSpace(namedInstanceName))
+            if (!string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
             {
-                namedInstanceName.EnsureValidIdentifier(nameof(namedInstanceName));
-                if (!namedInstanceName.IsPascalCase())
-                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(namedInstanceName));
+                assignmentNamedInstanceName.EnsureValidIdentifier(nameof(assignmentNamedInstanceName));
+                if (!assignmentNamedInstanceName.IsPascalCase())
+                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(assignmentNamedInstanceName));
             }
-            NamedInstanceName = namedInstanceName;
+            AssignmentNamedInstanceName = assignmentNamedInstanceName;
 
-            if (!string.IsNullOrWhiteSpace(assignmentValue) && !string.IsNullOrWhiteSpace(namedInstanceName))
+            if (!string.IsNullOrWhiteSpace(assignmentValue) && !string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
                 throw new ArgumentException("Assignment cannot specify both AssignmentValue and NamedInstanceName.");
 
             if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))

@@ -1,40 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Canonical
 {
     /// <summary>
     /// Canonical DTO representing an element in a named instance array.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed class NamedInstanceElementDto
+    public sealed class NamedInstanceElementDto : IHaveProvenance
     {
-        public string? Value { get; }
-        public string? NamedInstanceName { get; }
+        public string? AssignmentValue { get; }
+        public string? AssignmentNamedInstanceName { get; }
         public ProvenanceStack ProvenanceStack { get; }
         public IReadOnlyList<Diagnostic> Diagnostics { get; }
 
         public NamedInstanceElementDto(
-            string? value,
-            string? namedInstanceName,
+            string? assignmentValue,
+            string? assignmentNamedInstanceName,
             ProvenanceStack provenanceStack,
             IReadOnlyList<Diagnostic>? diagnostics)
         {
-            if (value != null && string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Value cannot be empty if provided.", nameof(value));
-            Value = value;
+            if (assignmentValue != null && string.IsNullOrWhiteSpace(assignmentValue))
+                throw new ArgumentException("Value cannot be empty if provided.", nameof(assignmentValue));
+            AssignmentValue = assignmentValue;
 
-            if (!string.IsNullOrWhiteSpace(namedInstanceName))
+            if (!string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
             {
-                namedInstanceName.EnsureValidIdentifier(nameof(namedInstanceName));
-                if (!namedInstanceName.IsPascalCase())
-                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(namedInstanceName));
+                assignmentNamedInstanceName.EnsureValidIdentifier(nameof(assignmentNamedInstanceName));
+                if (!assignmentNamedInstanceName.IsPascalCase())
+                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(assignmentNamedInstanceName));
             }
-            NamedInstanceName = namedInstanceName;
+            AssignmentNamedInstanceName = assignmentNamedInstanceName;
 
-            if (!string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(namedInstanceName))
+            if (!string.IsNullOrWhiteSpace(assignmentValue) && !string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
                 throw new ArgumentException("Element cannot specify both Value and NamedInstanceName.");
 
             if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))

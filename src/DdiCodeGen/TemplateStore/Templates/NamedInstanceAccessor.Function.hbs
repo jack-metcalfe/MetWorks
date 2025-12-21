@@ -1,0 +1,30 @@
+// NamedInstanceAccessor.Function
+// Accessor function for named instance {{{NamedInstanceName}}}
+// {{GeneratedHeader}}
+#nullable enable
+/* Provenance: {{{Provenance}}} */
+
+namespace {{{Namespace}}}
+{
+    // Provides a static accessor for the named instance {{NamedInstanceName}}.
+    // Declared as partial to allow modularization across multiple files.
+    // Construction path depends on whether the type is simple constructible or requires DI resolution.
+    internal static partial class {{{NamedInstanceName}}}_Accessors
+    {
+        // Token contract: NamedInstanceName; Provenance
+        public static {{EffectiveTypeRaw}} Get_{{NamedInstanceName}}(IServiceProvider provider)
+        {
+            {{#if IsSimpleConstructible}}
+            // Simple constructible: directly instantiate with new().
+            return new {{QualifiedClassNameRaw}}();
+            {{else}}
+            // Service-resolved: retrieve from IServiceProvider.
+            // Assumes the service has been registered; throws if not found.
+            var service = provider.GetService(typeof({{EffectiveTypeRaw}}));
+            if (service == null)
+                throw new InvalidOperationException($"Service for {{EffectiveTypeRaw}} not found in provider.");
+            return ({{EffectiveTypeRaw}})service;
+            {{/if}}
+        }
+    }
+}

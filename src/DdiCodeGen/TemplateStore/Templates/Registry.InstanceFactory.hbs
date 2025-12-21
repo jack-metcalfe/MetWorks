@@ -1,0 +1,31 @@
+// Registry.InstanceFactory
+// {{GeneratedHeader}}
+#nullable enable
+
+namespace {{GeneratedNamespace}}
+{
+    // The InstanceFactory encapsulates per-instance creation logic.
+    // Declared as partial to allow modularization if needed.
+    // It handles both element-driven and assignment-driven construction,
+    // and immediately registers the created instance with the Registry.
+    internal static partial class {{NamedInstanceName}}_InstanceFactory
+    {
+        public static {{NamedInstanceQualifiedClassName}} Create({{RegistryClassName}} registry)
+        {
+            {{#if HasElements}}
+            // Element-driven instance: build via ElementsInitializer.
+            // This always returns the concrete class of the named instance.
+            var instance = {{NamedInstanceName}}_ElementsInitializer.CreateElements(registry);
+            {{else}}
+            // Assignment-driven instance: construct with new().
+            // This is always valid because NamedInstanceQualifiedClassName is a concrete class.
+            var instance = new {{NamedInstanceQualifiedClassName}}();
+            {{/if}}
+
+            // Register immediately so other instances can reference it.
+            registry.Register{{NamedInstanceName}}(instance);
+
+            return instance;
+        }
+    }
+}

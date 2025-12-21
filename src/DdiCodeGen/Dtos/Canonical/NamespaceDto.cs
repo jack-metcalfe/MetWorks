@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Canonical
 {
     /// <summary>
     /// Canonical DTO representing a namespace and its declared types.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record NamespaceDto
+    public sealed record NamespaceDto : IHaveProvenance
     {
         public string NamespaceName { get; }
         public IReadOnlyList<InterfaceDto> Interfaces { get; }

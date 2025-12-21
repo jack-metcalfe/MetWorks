@@ -4,21 +4,15 @@ namespace DdiCodeGen.Dtos.Canonical
     /// Canonical DTO representing a named instance declaration from YAML input.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record NamedInstanceDto
+    public sealed record NamedInstanceDto : IHaveProvenance
     {
         public string NamedInstanceName { get; }
         public string QualifiedClassName { get; }
-        public string? QualifiedInterfaceName { get; }   // NEW: optional interface exposure
 
         // Class modifiers
         public bool IsArray { get; }                     // container is array
         public bool IsNullable { get; }                  // container nullability
         public bool ElementIsNullable { get; }           // element nullability
-
-        // Interface modifiers (parallel to class)
-        public bool InterfaceIsArray { get; }            // NEW
-        public bool InterfaceIsNullable { get; }         // NEW
-        public bool InterfaceElementIsNullable { get; }  // NEW
 
         public IReadOnlyList<NamedInstanceAssignmentDto> Assignments { get; }
         public IReadOnlyList<NamedInstanceElementDto> Elements { get; }
@@ -28,13 +22,13 @@ namespace DdiCodeGen.Dtos.Canonical
         public NamedInstanceDto(
             string namedInstanceName,
             string qualifiedClassName,
-            string? qualifiedInterfaceName,              // NEW
+            string? qualifiedInterfaceName,
             bool isArray,
             bool isNullable,
             bool elementIsNullable,
-            bool interfaceIsArray,                       // NEW
-            bool interfaceIsNullable,                    // NEW
-            bool interfaceElementIsNullable,             // NEW
+            bool interfaceIsArray,
+            bool interfaceIsNullable,
+            bool interfaceElementIsNullable,
             IReadOnlyList<NamedInstanceAssignmentDto>? assignments,
             IReadOnlyList<NamedInstanceElementDto>? elements,
             ProvenanceStack provenanceStack,
@@ -52,21 +46,10 @@ namespace DdiCodeGen.Dtos.Canonical
             qualifiedClassName.EnsureQualifiedName(nameof(qualifiedClassName));
             QualifiedClassName = qualifiedClassName;
 
-            // Interface name is optional but must be valid if present
-            if (!string.IsNullOrWhiteSpace(qualifiedInterfaceName))
-            {
-                qualifiedInterfaceName.EnsureQualifiedName(nameof(qualifiedInterfaceName));
-            }
-            QualifiedInterfaceName = qualifiedInterfaceName;
-
             // Modifiers
             IsArray = isArray;
             IsNullable = isNullable;
             ElementIsNullable = elementIsNullable;
-
-            InterfaceIsArray = interfaceIsArray;
-            InterfaceIsNullable = interfaceIsNullable;
-            InterfaceElementIsNullable = interfaceElementIsNullable;
 
             // Collections
             Assignments = (assignments ?? Array.Empty<NamedInstanceAssignmentDto>()).ToList().AsReadOnly();

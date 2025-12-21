@@ -1,0 +1,439 @@
+#maximal-valid
+codeGen:
+  registryClassName: "Registry"
+  generatedCodePath: "C:/Temp/GeneratedCode"
+  namespaceName: "ServiceRegistry"
+  initializerName: "InitializeAsync"
+  packageReferences: []
+
+namespaces:
+  - namespaceName: "InterfaceDefinition"
+    interfaces:
+      - interfaceName: "IFileLogger"
+      - interfaceName: "ISettingConfiguration"
+      - interfaceName: "ISettingsRepository"
+      - interfaceName: "IBackgroundService"
+    classes: []
+
+  - namespaceName: "InterfaceDefinition.Settings"
+    interfaces:
+      - interfaceName: "ISettingOverridesProvider"
+    classes: []
+
+  - namespaceName: "System"
+    interfaces: []
+    classes:
+      - className: "String"
+        qualifiedInterfaceName: null
+        initializerParameters: []
+      - className: "Boolean"
+        qualifiedInterfaceName: null
+        initializerParameters: []
+
+  - namespaceName: "System.Threading"
+    interfaces: []
+    classes:
+      - className: "CancellationTokenSource"
+        qualifiedInterfaceName: null
+        initializerParameters: []
+
+  - namespaceName: "Logging"
+    interfaces: []
+    classes:
+      - className: "FileLogger"
+        qualifiedInterfaceName: InterfaceDefinition.IFileLogger
+        initializerParameters:
+          - parameterName: "fileSizeLimitBytes"
+            qualifiedClassName: "System.Int32"
+          - parameterName: "minimumLevel"
+            qualifiedClassName: "System.String"
+          - parameterName: "outputTemplate"
+            qualifiedClassName: "System.String"
+          - parameterName: "path"
+            qualifiedClassName: "System.String"
+          - parameterName: "retainedFileCountLimit"
+            qualifiedClassName: "System.Int32"
+          - parameterName: "rollingInterval"
+            qualifiedClassName: "System.String"
+          - parameterName: "rollOnFileSizeLimit"
+            qualifiedClassName: "System.Boolean"
+
+  - namespaceName: "MauiSettingOverridesProviders"
+    interfaces: []
+    classes:
+      - className: "AppDataSettingOverridesProvider"
+        qualifiedInterfaceName: InterfaceDefinition.Settings.ISettingOverridesProvider
+        initializerParameters:
+          - parameterName: "filename"
+            qualifiedClassName: "System.String"
+
+  - namespaceName: "Settings"
+    interfaces: []
+    classes:
+      - className: "SettingConfiguration"
+        qualifiedInterfaceName: InterfaceDefinition.ISettingConfiguration
+        initializerParameters:
+          - parameterName: "defaultValue"
+            qualifiedClassName: "System.String"
+          - parameterName: "description"
+            qualifiedClassName: "System.String"
+          - parameterName: "expectedValueType"
+            qualifiedClassName: "System.String"
+          - parameterName: "group"
+            qualifiedClassName: "System.String"
+          - parameterName: "isEditable"
+            qualifiedClassName: "System.Boolean"
+          - parameterName: "path"
+            qualifiedClassName: "System.String"
+          - parameterName: "enumValues"
+            qualifiedClassName: "System.String[]"
+          - parameterName: "isSecret"
+            qualifiedClassName: "System.Boolean?"
+      - className: "SettingsRepository"
+        qualifiedInterfaceName: InterfaceDefinition.ISettingsRepository
+        initializerParameters:
+          - parameterName: "iFileLogger"
+            qualifiedInterfaceName: "InterfaceDefinition.IFileLogger"
+          - parameterName: "settingConfigurations"
+            qualifiedInterfaceName: "InterfaceDefinition.ISettingConfiguration[]"
+          - parameterName: "iSettingOverridesProvider"
+            qualifiedInterfaceName: "InterfaceDefinition.Settings.ISettingOverridesProvider"
+
+  - namespaceName: "UdpInRawPacketRecordTypedOut"
+    interfaces: []
+    classes:
+      - className: "Transformer"
+        qualifiedInterfaceName: InterfaceDefinition.IBackgroundService
+        initializerParameters:
+          - parameterName: "iFileLogger"
+            qualifiedInterfaceName: "InterfaceDefinition.IFileLogger"
+          - parameterName: "iSettingsRepository"
+            qualifiedInterfaceName: "InterfaceDefinition.ISettingsRepository"
+          - parameterName: "externalCancellationTokenSource"
+            qualifiedClassName: "System.Threading.CancellationTokenSource"
+
+  - namespaceName: "RawPacketRecordTypedInPostgresOut"
+    interfaces: []
+    classes:
+      - className: "ListenerSink"
+        qualifiedInterfaceName: InterfaceDefinition.IBackgroundService
+        initializerParameters:
+          - parameterName: "iFileLogger"
+            qualifiedInterfaceName: "InterfaceDefinition.IFileLogger"
+          - parameterName: "iSettingsRepository"
+            qualifiedInterfaceName: "InterfaceDefinition.ISettingsRepository"
+
+namedInstances:
+  - namedInstanceName: "RootCancellationTokenSource"
+    qualifiedClassName: "System.Threading.CancellationTokenSource"
+    assignments: []
+    elements: []
+
+  - namedInstanceName: "TheFileLogger"
+    qualifiedClassName: "Logging.FileLogger"
+    assignments:
+      - parameterName: "fileSizeLimitBytes"
+        assignedValue: "10485760"
+      - parameterName: "minimumLevel"
+        assignedValue: "Information"
+      - parameterName: "outputTemplate"
+        assignedValue: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+      - parameterName: "path"
+        assignedValue: "logs/log-.txt"
+      - parameterName: "retainedFileCountLimit"
+        assignedValue: "7"
+      - parameterName: "rollingInterval"
+        assignedValue: "Day"
+      - parameterName: "rollOnFileSizeLimit"
+        assignedValue: "true"
+    elements: []
+
+  - namedInstanceName: "TheUdpPortSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "50222"
+      - parameterName: "description"
+        assignedValue: "UDP Port for listening for readings from Tempest Weather Station"
+      - parameterName: "expectedValueType"
+        assignedValue: "Int32"
+      - parameterName: "group"
+        assignedValue: "UDPSettings"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/UDPSettings/PreferredPort"
+      - parameterName: "enumValues"
+        assignedValue: "[]"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "TheUdpPortSettings"
+    qualifiedClassName: "Settings.SettingConfiguration[]"
+    assignments: []
+    elements:
+      - assignedValue: null
+        assignedNamedInstance: "TheUdpPortSetting"
+
+  - namedInstanceName: "TemperatureOptions"
+    qualifiedClassName: "System.String[]"
+    assignments: []
+    elements:
+      - assignedValue: "degree celsius"
+        assignedNamedInstance: null
+      - assignedValue: "degree fahrenheit"
+        assignedNamedInstance: null
+
+  - namedInstanceName: "UdpTemperatureSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "degree fahrenheit"
+      - parameterName: "description"
+        assignedValue: "Override temperature unit for UDP readings"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "units"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/udp/unitOverrides/temperature"
+      - parameterName: "enumValues"
+        assignedNamedInstance: "TemperatureOptions"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "WindspeedOptions"
+    qualifiedClassName: "System.String[]"
+    assignments: []
+    elements:
+      - assignedValue: "kilometer/hour"
+        assignedNamedInstance: null
+      - assignedValue: "knot"
+        assignedNamedInstance: null
+      - assignedValue: "meter/second"
+        assignedNamedInstance: null
+      - assignedValue: "mile/hour"
+        assignedNamedInstance: null
+
+  - namedInstanceName: "UdpWindspeedSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "mile/hour"
+      - parameterName: "description"
+        assignedValue: "Override wind speed unit for UDP readings"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "units"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/udp/unitOverrides/windSpeed"
+      - parameterName: "enumValues"
+        assignedNamedInstance: "WindspeedOptions"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "PressureOptions"
+    qualifiedClassName: "System.String[]"
+    assignments: []
+    elements:
+      - assignedValue: "atmosphere"
+        assignedNamedInstance: null
+      - assignedValue: "bar"
+        assignedNamedInstance: null
+      - assignedValue: "hectopascal"
+        assignedNamedInstance: null
+      - assignedValue: "inch of mercury"
+        assignedNamedInstance: null
+      - assignedValue: "kilopascal"
+        assignedNamedInstance: null
+      - assignedValue: "millibar"
+        assignedNamedInstance: null
+      - assignedValue: "pascal"
+        assignedNamedInstance: null
+
+  - namedInstanceName: "UdpPressureSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "millibar"
+      - parameterName: "description"
+        assignedValue: "Override pressure unit for UDP readings"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "units"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/udp/unitOverrides/pressure"
+      - parameterName: "enumValues"
+        assignedNamedInstance: "PressureOptions"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "PrecipitationOptions"
+    qualifiedClassName: "System.String[]"
+    assignments: []
+    elements:
+      - assignedValue: "centimeter"
+        assignedNamedInstance: null
+      - assignedValue: "inch"
+        assignedNamedInstance: null
+      - assignedValue: "millimeter"
+        assignedNamedInstance: null
+
+  - namedInstanceName: "UdpPrecipitationSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "inch"
+      - parameterName: "description"
+        assignedValue: "Override precipitation unit for UDP readings"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "units"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/udp/unitOverrides/precipitation"
+      - parameterName: "enumValues"
+        assignedNamedInstance: "PrecipitationOptions"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "DistanceOptions"
+    qualifiedClassName: "System.String[]"
+    assignments: []
+    elements:
+      - assignedValue: "kilometer"
+        assignedNamedInstance: null
+      - assignedValue: "meter"
+        assignedNamedInstance: null
+      - assignedValue: "mile"
+        assignedNamedInstance: null
+      - assignedValue: "nautical mile"
+        assignedNamedInstance: null
+
+  - namedInstanceName: "UdpDistanceSetting"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "mile"
+      - parameterName: "description"
+        assignedValue: "Override distance unit for UDP readings"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "units"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/udp/unitOverrides/distance"
+      - parameterName: "enumValues"
+        assignedNamedInstance: "DistanceOptions"
+      - parameterName: "isSecret"
+        assignedValue: null
+    elements: []
+
+  - namedInstanceName: "TheUdpListenerSettings"
+    qualifiedClassName: "Settings.SettingConfiguration[]"
+    assignments: []
+    elements:
+      - assignedValue: null
+        assignedNamedInstance: "UdpTemperatureSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpWindspeedSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpPressureSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpPrecipitationSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpDistanceSetting"
+
+  - namedInstanceName: "TheAppDataSettingOverridesProvider"
+    qualifiedClassName: "MauiSettingOverridesProviders.AppDataSettingOverridesProvider"
+    assignments:
+      - parameterName: "filename"
+        assignedValue: "TheOverridesFile.ovr"
+    elements: []
+
+  - namedInstanceName: "TheUDPSettingsRepository"
+    qualifiedClassName: "Settings.SettingsRepository"
+    assignments:
+      - parameterName: "iFileLogger"
+        assignedNamedInstance: "TheFileLogger"
+      - parameterName: "settingConfigurations"
+        assignedNamedInstance: "TheUdpPortSettings"
+      - parameterName: "iSettingOverridesProvider"
+        assignedNamedInstance: "TheAppDataSettingOverridesProvider"
+    elements: []
+
+  - namedInstanceName: "TheUdpListener"
+    qualifiedClassName: "UdpInRawPacketRecordTypedOut.Transformer"
+    assignments:
+      - parameterName: "iFileLogger"
+        assignedNamedInstance: "TheFileLogger"
+      - parameterName: "iSettingsRepository"
+        assignedNamedInstance: "TheUDPSettingsRepository"
+      - parameterName: "externalCancellationTokenSource"
+        assignedNamedInstance: "RootCancellationTokenSource"
+    elements: []
+
+  - namedInstanceName: "ThePostgresConnection"
+    qualifiedClassName: "Settings.SettingConfiguration"
+    assignments:
+      - parameterName: "defaultValue"
+        assignedValue: "emptyString"
+      - parameterName: "description"
+        assignedValue: "Connection string for save weather data to Postgres"
+      - parameterName: "expectedValueType"
+        assignedValue: "String"
+      - parameterName: "group"
+        assignedValue: "database"
+      - parameterName: "isEditable"
+        assignedValue: "true"
+      - parameterName: "path"
+        assignedValue: "/services/RawPacketRecordTypedInPostgresOut/connectionString"
+      - parameterName: "enumValues"
+        assignedValue: "[]"
+      - parameterName: "isSecret"
+        assignedValue: "true"
+    elements: []
+
+  - namedInstanceName: "ThePostgresSettings"
+    qualifiedClassName: "Settings.SettingConfiguration[]"
+    assignments: []
+    elements:
+      - assignedValue: null
+        assignedNamedInstance: "ThePostgresConnection"
+
+  - namedInstanceName: "ThePostgresSettingsRepository"
+    qualifiedClassName: "Settings.SettingsRepository"
+    assignments:
+      - parameterName: "iFileLogger"
+        assignedNamedInstance: "TheFileLogger"
+      - parameterName: "settingConfigurations"
+        assignedNamedInstance: "ThePostgresSettings"
+      - parameterName: "iSettingOverridesProvider"
+        assignedNamedInstance: "TheAppDataSettingOverridesProvider"
+    elements: []
+
+  - namedInstanceName: "TheRawPacketRecordTypedInPostgresOut"
+    qualifiedClassName: "RawPacketRecordTypedInPostgresOut.ListenerSink"
+    assignments:
+      - parameterName: "iFileLogger"
+        assignedNamedInstance: "TheFileLogger"
+      - parameterName: "iSettingsRepository"
+        assignedNamedInstance: "ThePostgresSettingsRepository"
+    elements: []

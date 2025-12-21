@@ -1,0 +1,36 @@
+// NamedInstanceAccessor.Function.Initializer
+// Initializer-mode accessor for {{{NamedInstanceName}}}
+// {{GeneratedHeader}}
+#nullable enable
+/* Provenance: {{{Provenance}}} */
+
+namespace {{{Namespace}}}
+{
+    // Provides an async accessor for the named instance {{NamedInstanceName}}.
+    // Creates a new concrete instance, resolves assignment parameters,
+    // and invokes its async initializer before returning the instance.
+    internal static partial class {{{NamedInstanceName}}}_Accessors
+    {
+        public static async System.Threading.Tasks.Task<{{EffectiveTypeRaw}}> Get_{{NamedInstanceName}}_Async(IServiceProvider provider)
+        {
+            // Construct a new concrete instance.
+            var instance = new {{QualifiedClassNameRaw}}();
+
+            // Resolve assignment parameters (either other named instances or literal values).
+            {{#each Assignments}}
+            var {{ParameterName}} = {{#if AssignmentNamedInstanceName}}
+                {{AssignmentNamedInstanceName}}_Accessors.Get_{{AssignmentNamedInstanceName}}(provider);
+            {{else}}
+                {{{AssignmentValueOrExpression}}};
+            {{/if}}
+            {{/each}}
+
+            // Call the async initializer with resolved parameters.
+            await instance.InitializeAsync(
+                provider{{#if InitializerParameterList}}, {{InitializerParameterList}}{{/if}}
+            );
+
+            return instance;
+        }
+    }
+}

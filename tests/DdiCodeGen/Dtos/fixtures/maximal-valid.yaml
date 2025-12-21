@@ -1,7 +1,7 @@
 #maximal-valid
 codeGen:
   registryClassName: "Registry"
-  generatedCodePath: "Generated"
+  generatedCodePath: "C:/Temp/GeneratedCode"
   namespaceName: "ServiceRegistry"
   initializerName: "InitializeAsync"
   packageReferences: []
@@ -165,14 +165,17 @@ namedInstances:
     qualifiedClassName: "Settings.SettingConfiguration"
     assignments: []
     elements:
-      - assignedNamedInstance: "TheUdpPortSetting"
+      - assignedValue: null
+        assignedNamedInstance: "TheUdpPortSetting"
 
   - namedInstanceName: "TemperatureOptions"
     qualifiedClassName: "System.String"
     assignments: []
     elements:
       - assignedValue: "degree celsius"
+        assignedNamedInstance: null
       - assignedValue: "degree fahrenheit"
+        assignedNamedInstance: null
 
   - namedInstanceName: "UdpTemperatureSetting"
     qualifiedClassName: "Settings.SettingConfiguration"
@@ -200,9 +203,13 @@ namedInstances:
     assignments: []
     elements:
       - assignedValue: "kilometer/hour"
+        assignedNamedInstance: null
       - assignedValue: "knot"
+        assignedNamedInstance: null
       - assignedValue: "meter/second"
+        assignedNamedInstance: null
       - assignedValue: "mile/hour"
+        assignedNamedInstance: null
 
   - namedInstanceName: "UdpWindspeedSetting"
     qualifiedClassName: "Settings.SettingConfiguration"
@@ -230,12 +237,19 @@ namedInstances:
     assignments: []
     elements:
       - assignedValue: "atmosphere"
+        assignedNamedInstance: null
       - assignedValue: "bar"
+        assignedNamedInstance: null
       - assignedValue: "hectopascal"
+        assignedNamedInstance: null
       - assignedValue: "inch of mercury"
+        assignedNamedInstance: null
       - assignedValue: "kilopascal"
+        assignedNamedInstance: null
       - assignedValue: "millibar"
+        assignedNamedInstance: null
       - assignedValue: "pascal"
+        assignedNamedInstance: null
 
   - namedInstanceName: "UdpPressureSetting"
     qualifiedClassName: "Settings.SettingConfiguration"
@@ -263,8 +277,11 @@ namedInstances:
     assignments: []
     elements:
       - assignedValue: "centimeter"
+        assignedNamedInstance: null
       - assignedValue: "inch"
+        assignedNamedInstance: null
       - assignedValue: "millimeter"
+        assignedNamedInstance: null
 
   - namedInstanceName: "UdpPrecipitationSetting"
     qualifiedClassName: "Settings.SettingConfiguration"
@@ -292,9 +309,13 @@ namedInstances:
     assignments: []
     elements:
       - assignedValue: "kilometer"
+        assignedNamedInstance: null
       - assignedValue: "meter"
+        assignedNamedInstance: null
       - assignedValue: "mile"
+        assignedNamedInstance: null
       - assignedValue: "nautical mile"
+        assignedNamedInstance: null
 
   - namedInstanceName: "UdpDistanceSetting"
     qualifiedClassName: "Settings.SettingConfiguration"
@@ -321,11 +342,16 @@ namedInstances:
     qualifiedClassName: "Settings.SettingConfiguration"
     assignments: []
     elements:
-      - assignedNamedInstance: "UdpTemperatureSetting"
-      - assignedNamedInstance: "UdpWindspeedSetting"
-      - assignedNamedInstance: "UdpPressureSetting"
-      - assignedNamedInstance: "UdpPrecipitationSetting"
-      - assignedNamedInstance: "UdpDistanceSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpTemperatureSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpWindspeedSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpPressureSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpPrecipitationSetting"
+      - assignedValue: null
+        assignedNamedInstance: "UdpDistanceSetting"
 
   - namedInstanceName: "TheAppDataSettingOverridesProvider"
     qualifiedClassName: "MauiSettingOverridesProviders.AppDataSettingOverridesProvider"
@@ -381,7 +407,8 @@ namedInstances:
     qualifiedClassName: "Settings.SettingConfiguration"
     assignments: []
     elements:
-      - assignedNamedInstance: "ThePostgresConnection"
+      - assignedValue: null
+        assignedNamedInstance: "ThePostgresConnection"
 
   - namedInstanceName: "ThePostgresSettingsRepository"
     qualifiedClassName: "Settings.SettingsRepository"

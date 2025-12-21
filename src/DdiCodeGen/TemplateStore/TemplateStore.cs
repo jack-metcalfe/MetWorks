@@ -26,10 +26,10 @@ namespace DdiCodeGen.TemplateStore
         public string GetTemplate(string name)
         {
             var resourceName = _assembly.GetManifestResourceNames()
-                .FirstOrDefault(r => r.EndsWith($"{name}.tplt", StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(r => r.Equals($"TemplateStore.Templates.{name}.hbs", StringComparison.OrdinalIgnoreCase));
 
             if (resourceName == null)
-                throw new InvalidOperationException($"Template '{name}' not found.");
+                throw new InvalidOperationException($"Template '{name}.hbs' not found.");
 
             using var stream = _assembly.GetManifestResourceStream(resourceName)!;
             using var reader = new StreamReader(stream);
@@ -41,7 +41,7 @@ namespace DdiCodeGen.TemplateStore
         /// </summary>
         public IEnumerable<string> ListTemplates()
             => _assembly.GetManifestResourceNames()
-                .Where(r => r.EndsWith(".tplt", StringComparison.OrdinalIgnoreCase))
+                .Where(r => r.EndsWith(".hbs", StringComparison.OrdinalIgnoreCase))
                 .Select(r => Path.GetFileNameWithoutExtension(r));
     }
 }

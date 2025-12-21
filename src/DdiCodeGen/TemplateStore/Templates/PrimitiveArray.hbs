@@ -1,0 +1,19 @@
+// PrimitiveArray
+// {{GeneratedHeader}}
+#nullable enable
+{{Usings}}
+
+namespace {{Namespace}}
+{
+    // Primitive array aggregate for {{NamedInstanceName}}.
+    // Contains static members representing primitive arrays or constants.
+    // Declared as partial to allow modularization across multiple files.
+    // Array comment: {{ArrayComment}}
+    public static partial class {{NamedInstanceName}}_PrimitiveArrays
+    {
+        // Members emitted from pipeline (constants, arrays, fragments).
+        {{#each Members}}
+        {{this}}
+        {{/each}}
+    }
+}

@@ -1,0 +1,27 @@
+// Registry.Accessors
+// {{GeneratedHeader}}
+#nullable enable
+
+namespace {{GeneratedNamespace}}
+{
+    // The Registry class provides dual accessors for each named instance.
+    // External accessors return interfaces when available, ensuring API safety.
+    // Internal accessors always return concrete types, enabling initialization and internal wiring.
+    // Register methods accept concrete instances and populate backing fields.
+    public partial class {{RegistryClassName}}
+    {
+        {{#each Instances}}
+        // Register method: stores the concrete instance in the backing field.
+        public void Register{{NamedInstanceName}}({{{NamedInstanceQualifiedClassName}}} instance) =>
+            {{InstanceFieldName}} = instance;
+
+        // External accessor: returns the interface type when defined, otherwise the concrete class.
+        public {{#if NamedInstanceQualifiedInterfaceName}}{{NamedInstanceQualifiedInterfaceName}}{{else}}{{NamedInstanceQualifiedClassName}}{{/if}} Get{{NamedInstanceName}}() =>
+            {{InstanceFieldName}};
+
+        // Internal accessor: always returns the concrete class.
+        internal {{{NamedInstanceQualifiedClassName}}} Get{{NamedInstanceName}}_Internal() =>
+            {{InstanceFieldName}};
+        {{/each}}
+    }
+}

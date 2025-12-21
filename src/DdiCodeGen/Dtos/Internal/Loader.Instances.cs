@@ -1,106 +1,150 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using YamlDotNet.RepresentationModel;
-using DdiCodeGen.Dtos.Canonical;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Internal
 {
     internal sealed partial class Loader
     {
         // --- YamlRawModelLoader.Instances.cs (excerpt with updated ParseNamedInstance) ---
 
-        private RawNamedInstanceDto ParseNamedInstance(YamlMappingNode node, string sourcePath, string logicalPath)
+        private RawNamedInstanceDto ParseNamedInstance(
+            YamlMappingNode node,
+            string sourcePath,
+            string logicalPath)
         {
-            var diagnostics = ValidateMappingKeys(node, typeof(RawNamedInstanceDto), logicalPath, sourcePath).ToList();
+            var diagnostics = ValidateMappingKeys(
+                node,
+                typeof(RawNamedInstanceDto),
+                logicalPath,
+                sourcePath).ToList();
 
             // --- NamedInstanceName ---
             var name = GetScalar(node, "namedInstanceName");
             if (string.IsNullOrWhiteSpace(name))
             {
-                diagnostics.Add(new Diagnostic(
-                    DiagnosticCode.NamedInstanceMissingName,
-                    $"Missing 'namedInstanceName' in {logicalPath}.",
-                    
-                    BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.NamedInstanceMissingName,
+                    message: $"Missing 'namedInstanceName' in {logicalPath}.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")
+                );
                 name = "<missing.instance>";
             }
             else if (!name.IsValidIdentifier())
             {
-                diagnostics.Add(new Diagnostic(
-                    DiagnosticCode.InvalidIdentifier,
-                    $"NamedInstanceName '{name}' is not a valid identifier.",
-                    
-                    BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.InvalidIdentifier,
+                    message: $"NamedInstanceName '{name}' is not a valid identifier.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")
+                );
             }
 
-            // --- QualifiedClassName ---
+            // --- QualifiedClassName (required, QualifiedName) ---
             var qualifiedClass = GetScalar(node, "qualifiedClassName");
             string? baseClass = null;
-            bool classIsArray = false, classIsContainerNullable = false, classIsElementNullable = false;
+            bool classIsArray = false, classIsContainerNullable = false,
+                 classIsElementNullable = false;
 
             if (string.IsNullOrWhiteSpace(qualifiedClass))
             {
-                diagnostics.Add(new Diagnostic(
-                    DiagnosticCode.NamedInstanceMissingQualifiedClass,
-                    $"Missing 'qualifiedClassName' in {logicalPath}.",
-                    
-                    BuildLocation(sourcePath, $"{logicalPath}.qualifiedClassName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.NamedInstanceMissingQualifiedClass,
+                    message: $"Missing 'qualifiedClassName' in {logicalPath}.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.qualifiedClassName")
+                );
                 qualifiedClass = "<missing.qualifiedClass>";
             }
             else
             {
-                if (!qualifiedClass.TryParseTypeRef(out baseClass, out classIsArray, out classIsContainerNullable, out classIsElementNullable))
+                if (!qualifiedClass.TryParseTypeRef(
+                    out baseClass,
+                    out classIsArray,
+                    out classIsContainerNullable,
+                    out classIsElementNullable))
                 {
-                    diagnostics.Add(new Diagnostic(
-                        DiagnosticCode.TypeRefInvalid,
-                        $"Invalid type reference '{qualifiedClass}' in {logicalPath}. Supported forms: 'Ns.Type', 'Ns.Type?', 'Ns.Type[]', 'Ns.Type[]?'. Nullable element types inside arrays (e.g., 'Ns.Type?[]') are not supported.",
-                        
-                        BuildLocation(sourcePath, $"{logicalPath}.qualifiedClassName")));
+
+                    DiagnosticsHelper.Add(
+                        list: diagnostics,
+                        code: DiagnosticCode.TypeRefInvalid,
+                        message: $"Invalid type reference '{qualifiedClass}' in " +
+                        $"{logicalPath}. Supported forms: 'Ns.Type', 'Ns.Type?', " +
+                        "'Ns.Type[]', 'Ns.Type[]?'. Nullable element types inside " +
+                        "arrays (e.g., 'Ns.Type?[]') are not supported.",
+                        provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                        fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.qualifiedClassName")
+                    );
 
                     baseClass = null;
                     classIsArray = false;
                     classIsContainerNullable = false;
                     classIsElementNullable = false;
                 }
-                else if (string.IsNullOrWhiteSpace(baseClass) || !baseClass.IsQualifiedName())
+                else if (string.IsNullOrWhiteSpace(baseClass) ||
+                         !baseClass.IsQualifiedName())
                 {
-                    diagnostics.Add(new Diagnostic(
-                        DiagnosticCode.NamedInstanceMissingQualifiedClass,
-                        $"QualifiedClassName '{qualifiedClass}' is not a valid qualified name after parsing.",
-                        
-                        BuildLocation(sourcePath, $"{logicalPath}.qualifiedClassName")));
+                    DiagnosticsHelper.Add(
+                        list: diagnostics,
+                        code: DiagnosticCode.NamedInstanceMissingQualifiedClass,
+                        message: $"QualifiedClassName '{qualifiedClass}' is not a valid " +
+                        "qualified name after parsing.",
+                        provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                        fallbackLocation: BuildLocation(sourcePath,
+                            $"{logicalPath}.qualifiedClassName"));
                 }
             }
 
-            // --- QualifiedInterfaceName ---
+            // --- QualifiedInterfaceName (optional, QualifiedName or "null") ---
             var exposeInterface = GetScalar(node, "qualifiedInterfaceName");
+            if (string.Equals(
+                exposeInterface,
+                "null",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                exposeInterface = null;
+            }
+
             string? baseIface = null;
-            bool ifaceIsArray = false, ifaceIsContainerNullable = false, ifaceIsElementNullable = false;
+            bool ifaceIsArray = false, ifaceIsContainerNullable = false,
+                 ifaceIsElementNullable = false;
 
             if (!string.IsNullOrWhiteSpace(exposeInterface))
             {
-                if (!exposeInterface.TryParseTypeRef(out baseIface, out ifaceIsArray, out ifaceIsContainerNullable, out ifaceIsElementNullable))
+                if (!exposeInterface.TryParseTypeRef(
+                    out baseIface,
+                    out ifaceIsArray,
+                    out ifaceIsContainerNullable,
+                    out ifaceIsElementNullable))
                 {
-                    diagnostics.Add(new Diagnostic(
-                        DiagnosticCode.TypeRefInvalid,
-                        $"Invalid type reference '{exposeInterface}' in {logicalPath}. Supported forms: 'Ns.Type', 'Ns.Type?', 'Ns.Type[]', 'Ns.Type[]?'. Nullable element types inside arrays (e.g., 'Ns.Type?[]') are not supported.",
-                        
-                        BuildLocation(sourcePath, $"{logicalPath}.qualifiedInterfaceName")));
+
+                    DiagnosticsHelper.Add(
+                        list: diagnostics,
+                        code: DiagnosticCode.TypeRefInvalid,
+                        message: $"Invalid type reference '{exposeInterface}' in " +
+                        $"{logicalPath}. Supported forms: 'Ns.Type', 'Ns.Type?', " +
+                        "'Ns.Type[]', 'Ns.Type[]?'. Nullable element types inside " +
+                        "arrays (e.g., 'Ns.Type?[]') are not supported.",
+                        provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                        fallbackLocation: BuildLocation(sourcePath,
+                            $"{logicalPath}.qualifiedInterfaceName"));
 
                     baseIface = null;
                     ifaceIsArray = false;
                     ifaceIsContainerNullable = false;
                     ifaceIsElementNullable = false;
                 }
-                else if (string.IsNullOrWhiteSpace(baseIface) || !baseIface.IsQualifiedName())
+                else if (string.IsNullOrWhiteSpace(baseIface) ||
+                         !baseIface.IsQualifiedName())
                 {
-                    diagnostics.Add(new Diagnostic(
-                        DiagnosticCode.InterfaceMissingQualifiedName,
-                        $"QualifiedInterfaceName '{exposeInterface}' is not a valid qualified name after parsing.",
-                        
-                        BuildLocation(sourcePath, $"{logicalPath}.qualifiedInterfaceName")));
+                    DiagnosticsHelper.Add(
+                        list: diagnostics,
+                        code: DiagnosticCode.InterfaceMissingQualifiedName,
+                        message: $"QualifiedInterfaceName '{exposeInterface}' is not a " +
+                        "valid qualified name after parsing.",
+                        provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                        fallbackLocation: BuildLocation(sourcePath,
+                            $"{logicalPath}.qualifiedInterfaceName"));
                 }
             }
 
@@ -109,11 +153,36 @@ namespace DdiCodeGen.Dtos.Internal
             var assignments = new List<RawNamedInstanceAssignmentDto>();
             if (assignmentsSeq != null)
             {
-                int idx = 0;
-                foreach (var child in assignmentsSeq.Children.OfType<YamlMappingNode>())
+                for (int i = 0; i < assignmentsSeq.Children.Count; i++)
                 {
-                    idx++;
-                    assignments.Add(ParseAssignment(child, sourcePath, $"{logicalPath}.assignments[{idx}]"));
+                    var childLogical = $"{logicalPath}.assignments[{i}]";
+                    var child = assignmentsSeq.Children[i];
+
+                    if (child is YamlMappingNode map)
+                    {
+                        assignments.Add(
+                            ParseAssignment(map, sourcePath, childLogical));
+                    }
+                    else
+                    {
+                        var prov = MakeProvStack(child, sourcePath, childLogical);
+                        var diags = new List<Diagnostic>();
+                        DiagnosticsHelper.Add(
+                            list: diags,
+                            code: DiagnosticCode.AssignmentInvalidNode,
+                            message: $"Assignment at {childLogical} must be a mapping node.",
+                            provenance: ProvenanceHelper.MakeProvenance(prov),
+                            fallbackLocation: BuildLocation(sourcePath, childLogical)
+                        );
+
+                        assignments.Add(new RawNamedInstanceAssignmentDto(
+                            AssignmentParameterName: "<invalid.param>",
+                            AssignmentValue: null,
+                            AssignmentNamedInstanceName: null,
+                            ProvenanceStack: prov,
+                            Diagnostics: diags.AsReadOnly()
+                        ));
+                    }
                 }
             }
 
@@ -122,22 +191,48 @@ namespace DdiCodeGen.Dtos.Internal
             var elements = new List<RawNamedInstanceElementDto>();
             if (elementsSeq != null)
             {
-                int idx = 0;
-                foreach (var child in elementsSeq.Children.OfType<YamlMappingNode>())
+                for (int i = 0; i < elementsSeq.Children.Count; i++)
                 {
-                    idx++;
-                    elements.Add(ParseElement(child, sourcePath, $"{logicalPath}.elements[{idx}]"));
+                    var childLogical = $"{logicalPath}.elements[{i}]";
+                    var child = elementsSeq.Children[i];
+
+                    if (child is YamlMappingNode map)
+                    {
+                        elements.Add(ParseElement(map, sourcePath, childLogical));
+                    }
+                    else
+                    {
+                        var prov = MakeProvStack(child, sourcePath, childLogical);
+                        var diags = new List<Diagnostic>();
+                        DiagnosticsHelper.Add(
+                            list: diags,
+                            code: DiagnosticCode.ElementInvalidNode,
+                            message: $"Element at {childLogical} must be a mapping node.",
+                            provenance: ProvenanceHelper.MakeProvenance(prov),
+                            fallbackLocation: BuildLocation(sourcePath, childLogical)
+                        );
+
+                        elements.Add(new RawNamedInstanceElementDto(
+                            AssignmentValue: null,
+                            AssignmentNamedInstanceName: null,
+                            ProvenanceStack: prov,
+                            Diagnostics: diags.AsReadOnly()
+                        ));
+                    }
                 }
             }
 
             // --- Exclusivity check ---
             if (assignments.Count > 0 && elements.Count > 0)
             {
-                diagnostics.Add(new Diagnostic(
-                    DiagnosticCode.NamedInstanceBothAssignmentsAndElementsSet,
-                    $"Named instance '{name}' in {logicalPath} has both assignments and elements.",
-                    
-                    BuildLocation(sourcePath, logicalPath)));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.NamedInstanceBothAssignmentsAndElementsSet,
+                    message: $"Named instance '{name}' in {logicalPath} has both " +
+                             "assignments and elements.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, logicalPath)
+                );
             }
 
             // --- Aggregate child diagnostics ---
@@ -163,73 +258,136 @@ namespace DdiCodeGen.Dtos.Internal
             );
         }
 
-        private RawNamedInstanceAssignmentDto ParseAssignment(YamlMappingNode node, string sourcePath, string logicalPath)
+        private RawNamedInstanceAssignmentDto ParseAssignment(
+            YamlMappingNode node,
+            string sourcePath,
+            string logicalPath)
         {
-            var diagnostics = ValidateMappingKeys(node, typeof(RawNamedInstanceAssignmentDto), logicalPath, sourcePath).ToList();
+            var diagnostics = ValidateMappingKeys(
+                node,
+                typeof(RawNamedInstanceAssignmentDto),
+                logicalPath,
+                sourcePath).ToList();
 
-            var paramName = GetScalar(node, "parameterName") ?? GetScalar(node, "assignmentParameterName");
+            // --- ParameterName (SimpleName) ---
+            var paramName = GetScalar(node, "parameterName");
             if (string.IsNullOrWhiteSpace(paramName))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.AssignmentMissingParameterName, $"Missing 'parameterName' in {logicalPath}.",  BuildLocation(sourcePath, $"{logicalPath}.parameterName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.AssignmentMissingParameterName,
+                    message: $"Missing 'parameterName' in {logicalPath}.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.parameterName")
+                );
                 paramName = "<missing.param>";
             }
-            else if (!paramName.IsValidIdentifier())
+            else if (!paramName.IsValidIdentifier() || paramName.Contains("."))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"Assignment parameter name '{paramName}' is not a valid identifier.",  BuildLocation(sourcePath, $"{logicalPath}.parameterName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.InvalidIdentifier,
+                    message: $"Assignment parameterName '{paramName}' must be a simple " +
+                             "identifier (no namespace).",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.parameterName")
+                );
             }
 
-            var assignedValue = GetScalar(node, "assignedValue") ?? GetScalar(node, "value");
-            var assignedNamedInstance = GetScalar(node, "assignedNamedInstance");
+            // --- AssignedValue ---
+            var value = GetScalar(node, "assignedValue");
 
-            if (!string.IsNullOrWhiteSpace(assignedValue) && !string.IsNullOrWhiteSpace(assignedNamedInstance))
+            // --- AssignedNamedInstance (SimpleName or null) ---
+            var assignedInstance = GetScalar(node, "assignedNamedInstance");
+            if (string.Equals(
+                assignedInstance,
+                "null",
+                StringComparison.OrdinalIgnoreCase))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.AssignmentMissingValueOrInstance, $"Assignment at {logicalPath} specifies both value and namedInstanceName.",  BuildLocation(sourcePath, logicalPath)));
+                assignedInstance = null;
             }
-            else if (string.IsNullOrWhiteSpace(assignedValue) && string.IsNullOrWhiteSpace(assignedNamedInstance))
+            else if (!string.IsNullOrWhiteSpace(assignedInstance) &&
+                     (!assignedInstance.IsValidIdentifier() ||
+                      assignedInstance.Contains(".")))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.AssignmentMissingValueOrInstance, $"Assignment at {logicalPath} must specify either value or namedInstanceName.",  BuildLocation(sourcePath, logicalPath)));
-            }
-            else if (!string.IsNullOrWhiteSpace(assignedNamedInstance))
-            {
-                if (!assignedNamedInstance.IsValidIdentifier())
-                    diagnostics.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"Assigned named instance '{assignedNamedInstance}' is not a valid identifier.",  BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")));
+                DiagnosticsHelper.Add(
+                    list: diagnostics,
+                    code: DiagnosticCode.InvalidIdentifier,
+                    message: $"AssignedNamedInstance '{assignedInstance}' must be a simple " +
+                             "identifier (no namespace).",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath,
+                        $"{logicalPath}.assignedNamedInstance")
+                );
             }
 
             return new RawNamedInstanceAssignmentDto(
-                ParameterName: paramName,
-                AssignedValue: assignedValue,
-                AssignedNamedInstance: assignedNamedInstance,
+                AssignmentParameterName: paramName,
+                AssignmentValue: value,
+                AssignmentNamedInstanceName: assignedInstance,
                 ProvenanceStack: MakeProvStack(node, sourcePath, logicalPath),
-                Diagnostics: diagnostics.ToList().AsReadOnly()
+                Diagnostics: diagnostics.AsReadOnly()
             );
         }
 
-        private RawNamedInstanceElementDto ParseElement(YamlMappingNode node, string sourcePath, string logicalPath)
+        private RawNamedInstanceElementDto ParseElement(
+            YamlMappingNode node,
+            string sourcePath,
+            string logicalPath)
         {
-            var diagnostics = ValidateMappingKeys(node, typeof(RawNamedInstanceElementDto), logicalPath, sourcePath).ToList();
+            var diagnostics = ValidateMappingKeys(
+                node,
+                typeof(RawNamedInstanceElementDto),
+                logicalPath,
+                sourcePath).ToList();
 
             var value = GetScalar(node, "assignedValue");
-            var namedInstanceName = GetScalar(node, "assignedNamedInstance");
+            if (string.Equals(value, "null", StringComparison.OrdinalIgnoreCase))
+                value = null;
 
-            if (!string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(namedInstanceName))
+            var assignedInstance = GetScalar(node, "assignedNamedInstance");
+            if (string.Equals(assignedInstance, "null", StringComparison.OrdinalIgnoreCase))
+                assignedInstance = null;
+
+            // enforce exclusivity: one must be non-null, the other null
+            if (string.IsNullOrWhiteSpace(value) && string.IsNullOrWhiteSpace(assignedInstance))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.ElementMissingValueOrInstance, $"Element at {logicalPath} specifies both value and namedInstanceName.",  BuildLocation(sourcePath, logicalPath)));
+                DiagnosticsHelper.Add(
+                    diagnostics,
+                    DiagnosticCode.ElementMissingValue,
+                    $"Element at {logicalPath} must specify either assignedValue or assignedNamedInstance.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, logicalPath)
+                );
             }
-            else if (string.IsNullOrWhiteSpace(value) && string.IsNullOrWhiteSpace(namedInstanceName))
+            else if (!string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(assignedInstance))
             {
-                diagnostics.Add(new Diagnostic(DiagnosticCode.ElementMissingValueOrInstance, $"Element at {logicalPath} must specify either value or namedInstanceName.",  BuildLocation(sourcePath, logicalPath)));
+                DiagnosticsHelper.Add(
+                    diagnostics,
+                    DiagnosticCode.ElementBothValueAndInstance,
+                    $"Element at {logicalPath} cannot specify both assignedValue and assignedNamedInstance.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, logicalPath)
+                );
             }
-            else if (!string.IsNullOrWhiteSpace(namedInstanceName))
+
+            if (!string.IsNullOrWhiteSpace(assignedInstance) &&
+                (!assignedInstance.IsValidIdentifier() || assignedInstance.Contains(".")))
             {
-                if (!namedInstanceName.IsValidIdentifier())
-                    diagnostics.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"Element namedInstanceName '{namedInstanceName}' is not a valid identifier.",  BuildLocation(sourcePath, $"{logicalPath}.namedInstanceName")));
+                DiagnosticsHelper.Add(
+                    diagnostics,
+                    DiagnosticCode.InvalidIdentifier,
+                    $"AssignedNamedInstance '{assignedInstance}' must be a simple identifier.",
+                    provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                    fallbackLocation: BuildLocation(sourcePath, $"{logicalPath}.assignedNamedInstance")
+                );
             }
 
             return new RawNamedInstanceElementDto(
-                Value: value,
-                AssignedNamedInstance: namedInstanceName,
+                AssignmentValue: value,
+                AssignmentNamedInstanceName: assignedInstance,
                 ProvenanceStack: MakeProvStack(node, sourcePath, logicalPath),
-                Diagnostics: diagnostics.ToList().AsReadOnly()
+                Diagnostics: diagnostics.AsReadOnly()
             );
         }
     }

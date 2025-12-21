@@ -4,7 +4,7 @@ namespace DdiCodeGen.Dtos.Canonical
     /// Canonical DTO representing a constructor or initializer parameter.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record ParameterDto
+    public sealed record ParameterDto : IHaveProvenance
     {
         public string ParameterName { get; }
         public string? QualifiedClassName { get; }
@@ -13,8 +13,6 @@ namespace DdiCodeGen.Dtos.Canonical
         // Modifiers
         public bool IsArray { get; }
         public bool IsNullable { get; }              // container nullability
-        public bool ElementIsNullable { get; }       // NEW: element nullability
-
         public bool IsValid { get; }
         public IReadOnlyList<Diagnostic> Diagnostics { get; }
         public ProvenanceStack ProvenanceStack { get; }
@@ -25,7 +23,6 @@ namespace DdiCodeGen.Dtos.Canonical
             string? qualifiedInterfaceName,
             bool isArray,
             bool isNullable,
-            bool elementIsNullable,
             bool isValid,
             IReadOnlyList<Diagnostic>? diagnostics,
             ProvenanceStack provenanceStack)
@@ -51,7 +48,6 @@ namespace DdiCodeGen.Dtos.Canonical
 
             IsArray = isArray;
             IsNullable = isNullable;
-            ElementIsNullable = elementIsNullable;   // NEW
 
             IsValid = isValid;
             Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();

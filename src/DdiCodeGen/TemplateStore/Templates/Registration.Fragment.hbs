@@ -1,0 +1,34 @@
+// Registration.Fragment
+// Per-registration fragment for {{NamedInstanceName}}
+// {{GeneratedHeader}}
+#nullable enable
+using Microsoft.Extensions.DependencyInjection;
+/* Provenance: {{Provenance}} */
+
+namespace {{Namespace}}
+{
+    // Provides DI registration for the named instance {{NamedInstanceName}}.
+    // Declared as partial to allow modularization across multiple files.
+    // Token contract: NamedInstanceName; Provenance; ServiceType; ImplementationType; Lifetime
+    internal static partial class {{NamedInstanceName}}_RegistrationFragment
+    {
+        public static void Register_{{NamedInstanceName}}(IServiceCollection services)
+        {
+            var _svc = typeof({{ServiceType}});
+            var _impl = typeof({{ImplementationType}});
+            if (_svc == null || _impl == null)
+                throw new InvalidOperationException($"Invalid registration tokens for {{NamedInstanceName}} (Provenance: {{Provenance}})");
+
+            // Emit correct lifetime call based on token.
+            {{#if (eq Lifetime "Singleton")}}
+            services.AddSingleton(_svc, _impl);
+            {{else if (eq Lifetime "Scoped")}}
+            services.AddScoped(_svc, _impl);
+            {{else if (eq Lifetime "Transient")}}
+            services.AddTransient(_svc, _impl);
+            {{else}}
+            throw new InvalidOperationException($"Unknown lifetime '{{Lifetime}}' for {{NamedInstanceName}} (Provenance: {{Provenance}})");
+            {{/if}}
+        }
+    }
+}

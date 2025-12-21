@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DdiCodeGen.Validation;
-
 namespace DdiCodeGen.Dtos.Canonical
 {
     /// <summary>
     /// Canonical DTO representing global code generation settings.
     /// Identifiers are guaranteed C#-safe at this boundary.
     /// </summary>
-    public sealed record CodeGenDto
+    public sealed record CodeGenDto : IHaveProvenance
     {
         public string RegistryClassName { get; }
         public string GeneratedCodePath { get; }

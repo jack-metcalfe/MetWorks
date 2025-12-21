@@ -32,10 +32,11 @@ namespace DdiCodeGen.Dtos.Internal
             return $"{sourcePath}#{logicalPath}";
         }
 
-        // Add a diagnostic to a list (helper)
+        // Add a diagnostic to a list (helper) — now uses DiagnosticsHelper
         private static void AddDiagnostic(List<Diagnostic> diagnostics, DiagnosticCode code, string message, string? location = null)
         {
-            diagnostics.Add(new Diagnostic(code, message, location));
+            // Use the provided location as fallback; provenance is not available here so pass null provenance
+            DiagnosticsHelper.Add(diagnostics, code, message, fallbackLocation: location ?? "<unknown>");
         }
 
         // Create a minimal provenance stack for a parsed node
@@ -80,12 +81,14 @@ namespace DdiCodeGen.Dtos.Internal
                 var key = keyScalar.Value ?? string.Empty;
                 if (!allowedSet.Contains(key))
                 {
-                    diagnostics.Add(new Diagnostic(
+                    // Use DiagnosticsHelper so location and provenance are consistent
+                    DiagnosticsHelper.Add(
+                        diagnostics,
                         DiagnosticCode.UnrecognizedToken,
                         $"Unrecognized token '{key}' at {logicalPath}. Allowed keys: {string.Join(", ", allowed)}",
-                        
-                        BuildLocation(sourcePath, logicalPath)
-                    ));
+                        provenance: ProvenanceHelper.MakeProvenance(sourcePath, logicalPath),
+                        fallbackLocation: BuildLocation(sourcePath, logicalPath)
+                    );
                 }
             }
 
@@ -93,57 +96,129 @@ namespace DdiCodeGen.Dtos.Internal
         }
 
         // Helper to parse interface tokens (scalar shorthand or mapping form)
-        private IReadOnlyList<RawInterfaceDto> GetInterfaceTokens(YamlMappingNode node, string key, string sourcePath, string logicalPath)
+        private IReadOnlyList<RawInterfaceDto> GetInterfaceTokens(
+            YamlMappingNode node,
+            string key,
+            string sourcePath,
+            string logicalPath)
         {
             var results = new List<RawInterfaceDto>();
 
-            if (!node.Children.TryGetValue(new YamlScalarNode(key), out var value) || value is not YamlSequenceNode seq)
+            if (!node.Children.TryGetValue(new YamlScalarNode(key), out var value) ||
+                value is not YamlSequenceNode seq)
+            {
                 return results;
+            }
 
             for (int i = 0; i < seq.Children.Count; i++)
             {
-                var child = seq.Children[i];
                 var childLogical = $"{logicalPath}[{i}]";
-
-                if (child is YamlScalarNode scalar)
-                {
-                    var prov = MakeProvStack(scalar, sourcePath, childLogical);
-                    var diags = new List<Diagnostic>();
-                    if (string.IsNullOrWhiteSpace(scalar.Value))
-                        diags.Add(new Diagnostic(DiagnosticCode.InterfaceMissingName, $"Empty interface scalar at {childLogical}.",  BuildLocation(sourcePath, childLogical)));
-                    else if (!scalar.Value.IsValidIdentifier())
-                        diags.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"Interface scalar '{scalar.Value}' is not a valid identifier.",  BuildLocation(sourcePath, childLogical)));
-
-                    results.Add(new RawInterfaceDto(
-                        InterfaceName: scalar.Value,
-                        ProvenanceStack: prov,
-                        Diagnostics: diags.ToList().AsReadOnly()
-                    ));
-                    continue;
-                }
-
-                if (child is YamlMappingNode map)
-                {
-                    var prov = MakeProvStack(map, sourcePath, childLogical);
-                    var diags = ValidateMappingKeys(map, typeof(RawInterfaceDto), childLogical, sourcePath).ToList();
-                    var name = GetScalar(map, "interfaceName");
-                    if (string.IsNullOrWhiteSpace(name))
-                        diags.Add(new Diagnostic(DiagnosticCode.InterfaceMissingName, $"Missing 'interfaceName' in {childLogical}.",  BuildLocation(sourcePath, $"{childLogical}.interfaceName")));
-                    else if (!name.IsValidIdentifier())
-                        diags.Add(new Diagnostic(DiagnosticCode.InvalidIdentifier, $"InterfaceName '{name}' is not a valid identifier.",  BuildLocation(sourcePath, $"{childLogical}.interfaceName")));
-
-                    results.Add(new RawInterfaceDto(
-                        InterfaceName: name,
-                        ProvenanceStack: prov,
-                        Diagnostics: diags.ToList().AsReadOnly()
-                    ));
-                    continue;
-                }
-
-                // Other node types are ignored; could add diagnostic if desired
+                results.Add(ParseInterface(seq.Children[i], sourcePath, childLogical));
             }
 
-            return results.ToList().AsReadOnly();
+            return results.AsReadOnly();
+        }
+
+        private IReadOnlyList<RawParameterDto> GetParameterTokens(
+            YamlMappingNode node,
+            string key,
+            string sourcePath,
+            string logicalPath)
+        {
+            var results = new List<RawParameterDto>();
+
+            if (!node.Children.TryGetValue(new YamlScalarNode(key), out var value) ||
+                value is not YamlSequenceNode seq)
+            {
+                return results;
+            }
+
+            for (int i = 0; i < seq.Children.Count; i++)
+            {
+                var childLogical = $"{logicalPath}[{i}]";
+
+                if (seq.Children[i] is YamlMappingNode map)
+                {
+                    results.Add(ParseParameter(map, sourcePath, childLogical));
+                }
+                else
+                {
+                    var prov = MakeProvStack(seq.Children[i], sourcePath, childLogical);
+                    var diags = new List<Diagnostic>();
+                    DiagnosticsHelper.Add(
+                        diags,
+                        DiagnosticCode.ParameterInvalidNode,
+                        $"Initializer parameter at {childLogical} must be a mapping node.",
+                        provenance: prov,
+                        fallbackLocation: BuildLocation(sourcePath, childLogical)
+                    );
+
+                    results.Add(new RawParameterDto(
+                        ParameterName: "<invalid.param>",
+                        QualifiedClassName: null,
+                        QualifiedInterfaceName: null,
+                        QualifiedClassBaseName: null,
+                        QualifiedClassIsArray: false,
+                        QualifiedClassIsContainerNullable: false,
+                        QualifiedClassElementIsNullable: false,
+                        QualifiedInterfaceBaseName: null,
+                        QualifiedInterfaceIsArray: false,
+                        QualifiedInterfaceIsContainerNullable: false,
+                        QualifiedInterfaceElementIsNullable: false,
+                        ProvenanceStack: prov,
+                        Diagnostics: diags.AsReadOnly()
+                    ));
+                }
+            }
+
+            return results.AsReadOnly();
+        }
+
+        private IReadOnlyList<RawNamedInstanceAssignmentDto> GetAssignmentTokens(
+            YamlMappingNode node,
+            string key,
+            string sourcePath,
+            string logicalPath)
+        {
+            var results = new List<RawNamedInstanceAssignmentDto>();
+
+            if (!node.Children.TryGetValue(new YamlScalarNode(key), out var value) ||
+                value is not YamlSequenceNode seq)
+            {
+                return results;
+            }
+
+            for (int i = 0; i < seq.Children.Count; i++)
+            {
+                var childLogical = $"{logicalPath}[{i}]";
+
+                if (seq.Children[i] is YamlMappingNode map)
+                {
+                    results.Add(ParseAssignment(map, sourcePath, childLogical));
+                }
+                else
+                {
+                    var prov = MakeProvStack(seq.Children[i], sourcePath, childLogical);
+                    var diags = new List<Diagnostic>();
+                    DiagnosticsHelper.Add(
+                        diags,
+                        DiagnosticCode.AssignmentInvalidNode,
+                        $"Assignment at {childLogical} must be a mapping node.",
+                        provenance: prov,
+                        fallbackLocation: BuildLocation(sourcePath, childLogical)
+                    );
+
+                    results.Add(new RawNamedInstanceAssignmentDto(
+                        AssignmentParameterName: "<invalid.param>",
+                        AssignmentValue: null,
+                        AssignmentNamedInstanceName: null,
+                        ProvenanceStack: prov,
+                        Diagnostics: diags.AsReadOnly()
+                    ));
+                }
+            }
+
+            return results.AsReadOnly();
         }
     }
 }

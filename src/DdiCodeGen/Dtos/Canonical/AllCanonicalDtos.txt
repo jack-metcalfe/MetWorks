@@ -1,0 +1,504 @@
+namespace DdiCodeGen.Dtos.Canonical;
+
+/// <summary>
+/// Canonical root DTO representing the parsed and normalized YAML model.
+/// Identifiers are guaranteed C#-safe at this boundary.
+/// </summary>
+public sealed record CanonicalModelDto : IHaveProvenance
+{
+    public CodeGenDto CodeGen { get; }
+    public IReadOnlyList<NamespaceDto> Namespaces { get; }
+    public IReadOnlyList<NamedInstanceDto> NamedInstances { get; }
+    public string SourcePath { get; }
+    public ProvenanceStack ProvenanceStack { get; }
+    public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+    public CanonicalModelDto(
+        CodeGenDto codeGen,
+        IReadOnlyList<NamespaceDto>? namespaces,
+        IReadOnlyList<NamedInstanceDto>? namedInstances,
+        string sourcePath,
+        ProvenanceStack provenanceStack,
+        IReadOnlyList<Diagnostic>? diagnostics)
+    {
+        CodeGen = codeGen ?? throw new ArgumentNullException(nameof(codeGen));
+
+        if (string.IsNullOrWhiteSpace(sourcePath))
+            throw new ArgumentException("SourcePath is required and cannot be empty.", nameof(sourcePath));
+        SourcePath = sourcePath;
+
+        if (provenanceStack is null || provenanceStack.Entries.Count == 0)
+            throw new ArgumentException("ProvenanceStack must be provided and non-empty.", nameof(provenanceStack));
+        ProvenanceStack = provenanceStack;
+
+        Namespaces = (namespaces ?? Array.Empty<NamespaceDto>()).ToList().AsReadOnly();
+        NamedInstances = (namedInstances ?? Array.Empty<NamedInstanceDto>()).ToList().AsReadOnly();
+        Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+
+        // Uniqueness: (namespace, instance name) must be unique among NamedInstances.
+        // Use QualifiedClassName -> SafeExtractNamespace to determine instance scope.
+        var dupKeys = NamedInstances
+            .GroupBy(i => (Namespace: i.QualifiedClassName.SafeExtractNamespace(), Name: i.NamedInstanceName))
+            .Where(g => g.Count() > 1)
+            .Select(g => $"{g.Key.Namespace}.{g.Key.Name}")
+            .ToList();
+
+        if (dupKeys.Count > 0)
+            throw new ArgumentException($"Duplicate named instances within the same namespace: {string.Join(", ", dupKeys)}", nameof(namedInstances));
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical;
+
+    /// <summary>
+    /// Canonical DTO representing a class declaration.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record ClassDto : IHaveProvenance
+    {
+        public string ClassName { get; }
+        public string ShortName { get; }
+        public string InvokerKey { get; }
+        public string QualifiedClassName { get; }
+        public string? QualifiedInterfaceName { get; }
+        public string ReturnTypeQualifiedName { get; }
+        public IReadOnlyList<ParameterDto> InitializerParameters { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public ClassDto(
+            string className,
+            string shortName,
+            string invokerKey,
+            string qualifiedClassName,
+            string? qualifiedInterfaceName,
+            string returnTypeQualifiedName,
+            IReadOnlyList<ParameterDto> initializerParameters,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            // Local invariants (class-level)
+            className.EnsureValidIdentifier(nameof(className));
+            shortName.EnsureValidIdentifier(nameof(shortName));
+            invokerKey.EnsureValidIdentifier(nameof(invokerKey));
+
+            if (string.IsNullOrWhiteSpace(qualifiedClassName) || !qualifiedClassName.IsQualifiedName())
+                throw new ArgumentException("qualifiedClassName must be a valid qualified name.", nameof(qualifiedClassName));
+
+            if (string.IsNullOrWhiteSpace(returnTypeQualifiedName) || !returnTypeQualifiedName.IsQualifiedName())
+                throw new ArgumentException("returnTypeQualifiedName must be a valid qualified name.", nameof(returnTypeQualifiedName));
+
+            if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+
+            ClassName = className;
+            ShortName = shortName;
+            InvokerKey = invokerKey;
+            QualifiedClassName = qualifiedClassName;
+            QualifiedInterfaceName = qualifiedInterfaceName;
+            ReturnTypeQualifiedName = returnTypeQualifiedName;
+            InitializerParameters = initializerParameters ?? Array.Empty<ParameterDto>();
+            ProvenanceStack = provenanceStack;
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing global code generation settings.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record CodeGenDto : IHaveProvenance
+    {
+        public string RegistryClassName { get; }
+        public string GeneratedCodePath { get; }
+        public string NamespaceName { get; }
+        public string InitializerName { get; }
+        public IReadOnlyList<PackageReferenceDto> PackageReferences { get; } = Array.Empty<PackageReferenceDto>();
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public CodeGenDto(
+            string registryClassName,
+            string generatedCodePath,
+            string namespaceName,
+            string initializerName,
+            IReadOnlyList<PackageReferenceDto> packageReferences,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            registryClassName.EnsureValidIdentifier(nameof(registryClassName));
+            if (!registryClassName.IsPascalCase())
+                throw new ArgumentException("Registry class name must follow PascalCase convention.", nameof(registryClassName));
+            RegistryClassName = registryClassName;
+
+            if (string.IsNullOrWhiteSpace(generatedCodePath))
+                throw new ArgumentException("Generated code path is required and cannot be empty.", nameof(generatedCodePath));
+            GeneratedCodePath = generatedCodePath;
+
+            if (!namespaceName.IsValidNamespace())
+                throw new ArgumentException("Namespace must be a valid dot-separated namespace with valid identifier segments.", nameof(namespaceName));
+            NamespaceName = namespaceName;
+
+            initializerName.EnsureValidIdentifier(nameof(initializerName));
+            if (!initializerName.IsPascalCase())
+                throw new ArgumentException("Initializer name must follow PascalCase convention.", nameof(initializerName));
+            InitializerName = initializerName;
+
+            PackageReferences = packageReferences;
+
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing an interface declaration.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record InterfaceDto : IHaveProvenance
+    {
+        public string InterfaceName { get; }
+        public string QualifiedInterfaceName { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public InterfaceDto(
+            string interfaceName,
+            string qualifiedInterfaceName,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            interfaceName.EnsureValidIdentifier(nameof(interfaceName));
+            if (!interfaceName.IsInterfaceName())
+                throw new ArgumentException("Interface name must start with 'I' followed by uppercase.", nameof(interfaceName));
+            InterfaceName = interfaceName;
+
+            qualifiedInterfaceName.EnsureQualifiedName(nameof(qualifiedInterfaceName));
+            QualifiedInterfaceName = qualifiedInterfaceName;
+
+            if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing an assignment for a named instance initializer.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record NamedInstanceAssignmentDto : IHaveProvenance
+    {
+        public string AssignmentParameterName { get; }
+        public string? AssignmentValue { get; }
+        public string? AssignmentNamedInstanceName { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public NamedInstanceAssignmentDto(
+            string assignmentParameterName,
+            string? assignmentValue,
+            string? assignmentNamedInstanceName,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            assignmentParameterName.EnsureValidIdentifier(nameof(assignmentParameterName));
+            AssignmentParameterName = assignmentParameterName;
+
+            if (assignmentValue != null && string.IsNullOrWhiteSpace(assignmentValue))
+                throw new ArgumentException("AssignmentValue cannot be empty if provided.", nameof(assignmentValue));
+            AssignmentValue = assignmentValue;
+
+            if (!string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
+            {
+                assignmentNamedInstanceName.EnsureValidIdentifier(nameof(assignmentNamedInstanceName));
+                if (!assignmentNamedInstanceName.IsPascalCase())
+                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(assignmentNamedInstanceName));
+            }
+            AssignmentNamedInstanceName = assignmentNamedInstanceName;
+
+            if (!string.IsNullOrWhiteSpace(assignmentValue) && !string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
+                throw new ArgumentException("Assignment cannot specify both AssignmentValue and NamedInstanceName.");
+
+            if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing a named instance declaration from YAML input.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record NamedInstanceDto : IHaveProvenance
+    {
+        public string NamedInstanceName { get; }
+        public string QualifiedClassName { get; }
+        public string? QualifiedInterfaceName { get; }   // NEW: optional interface exposure
+
+        // Class modifiers
+        public bool IsArray { get; }                     // container is array
+        public bool IsNullable { get; }                  // container nullability
+        public bool ElementIsNullable { get; }           // element nullability
+
+        // Interface modifiers (parallel to class)
+        public bool InterfaceIsArray { get; }            // NEW
+        public bool InterfaceIsNullable { get; }         // NEW
+        public bool InterfaceElementIsNullable { get; }  // NEW
+
+        public IReadOnlyList<NamedInstanceAssignmentDto> Assignments { get; }
+        public IReadOnlyList<NamedInstanceElementDto> Elements { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public NamedInstanceDto(
+            string namedInstanceName,
+            string qualifiedClassName,
+            string? qualifiedInterfaceName,              // NEW
+            bool isArray,
+            bool isNullable,
+            bool elementIsNullable,
+            bool interfaceIsArray,                       // NEW
+            bool interfaceIsNullable,                    // NEW
+            bool interfaceElementIsNullable,             // NEW
+            IReadOnlyList<NamedInstanceAssignmentDto>? assignments,
+            IReadOnlyList<NamedInstanceElementDto>? elements,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            // Validate name
+            namedInstanceName.EnsureValidIdentifier(nameof(namedInstanceName));
+            if (!namedInstanceName.IsPascalCase())
+                throw new ArgumentException("Named instance name must follow PascalCase convention.", nameof(namedInstanceName));
+            NamedInstanceName = namedInstanceName;
+
+            // Qualified class name must be provided and valid
+            if (string.IsNullOrWhiteSpace(qualifiedClassName))
+                throw new ArgumentException("QualifiedClassName must be provided.", nameof(qualifiedClassName));
+            qualifiedClassName.EnsureQualifiedName(nameof(qualifiedClassName));
+            QualifiedClassName = qualifiedClassName;
+
+            // Interface name is optional but must be valid if present
+            if (!string.IsNullOrWhiteSpace(qualifiedInterfaceName))
+            {
+                qualifiedInterfaceName.EnsureQualifiedName(nameof(qualifiedInterfaceName));
+            }
+            QualifiedInterfaceName = qualifiedInterfaceName;
+
+            // Modifiers
+            IsArray = isArray;
+            IsNullable = isNullable;
+            ElementIsNullable = elementIsNullable;
+
+            InterfaceIsArray = interfaceIsArray;
+            InterfaceIsNullable = interfaceIsNullable;
+            InterfaceElementIsNullable = interfaceElementIsNullable;
+
+            // Collections
+            Assignments = (assignments ?? Array.Empty<NamedInstanceAssignmentDto>()).ToList().AsReadOnly();
+            Elements = (elements ?? Array.Empty<NamedInstanceElementDto>()).ToList().AsReadOnly();
+
+            if (Assignments.Count > 0 && Elements.Count > 0)
+                throw new ArgumentException("Named instance cannot specify both Assignments and Elements.");
+
+            // Provenance
+            if (provenanceStack is null || ProvenanceStackEntriesEmpty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        private static bool ProvenanceStackEntriesEmpty(ProvenanceStack stack) =>
+            stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing an element in a named instance array.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed class NamedInstanceElementDto : IHaveProvenance
+    {
+        public string? AssignmentValue { get; }
+        public string? AssignmentNamedInstanceName { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public NamedInstanceElementDto(
+            string? assignmentValue,
+            string? assignmentNamedInstanceName,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            if (assignmentValue != null && string.IsNullOrWhiteSpace(assignmentValue))
+                throw new ArgumentException("Value cannot be empty if provided.", nameof(assignmentValue));
+            AssignmentValue = assignmentValue;
+
+            if (!string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
+            {
+                assignmentNamedInstanceName.EnsureValidIdentifier(nameof(assignmentNamedInstanceName));
+                if (!assignmentNamedInstanceName.IsPascalCase())
+                    throw new ArgumentException("NamedInstanceName must follow PascalCase convention.", nameof(assignmentNamedInstanceName));
+            }
+            AssignmentNamedInstanceName = assignmentNamedInstanceName;
+
+            if (!string.IsNullOrWhiteSpace(assignmentValue) && !string.IsNullOrWhiteSpace(assignmentNamedInstanceName))
+                throw new ArgumentException("Element cannot specify both Value and NamedInstanceName.");
+
+            if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing a namespace and its declared types.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record NamespaceDto : IHaveProvenance
+    {
+        public string NamespaceName { get; }
+        public IReadOnlyList<InterfaceDto> Interfaces { get; }
+        public IReadOnlyList<ClassDto> Classes { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+
+        public NamespaceDto(
+            string namespaceName,
+            IReadOnlyList<InterfaceDto>? interfaces,
+            IReadOnlyList<ClassDto>? classes,
+            ProvenanceStack provenanceStack,
+            IReadOnlyList<Diagnostic>? diagnostics)
+        {
+            if (!namespaceName.IsValidNamespace())
+                throw new ArgumentException("Namespace must be a valid dot-separated namespace with valid identifier segments.", nameof(namespaceName));
+            NamespaceName = namespaceName;
+
+            Interfaces = (interfaces ?? Array.Empty<InterfaceDto>()).ToList().AsReadOnly();
+            Classes = (classes ?? Array.Empty<ClassDto>()).ToList().AsReadOnly();
+
+            if (provenanceStack is null || provenance_stack_entries_empty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+        }
+
+        // local helper to avoid repeated property access in constructor check
+        private static bool provenance_stack_entries_empty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical
+{
+    /// <summary>
+    /// Canonical DTO representing a constructor or initializer parameter.
+    /// Identifiers are guaranteed C#-safe at this boundary.
+    /// </summary>
+    public sealed record ParameterDto : IHaveProvenance
+    {
+        public string ParameterName { get; }
+        public string? QualifiedClassName { get; }
+        public string? QualifiedInterfaceName { get; }
+
+        // Modifiers
+        public bool IsArray { get; }
+        public bool IsNullable { get; }              // container nullability
+        public bool ElementIsNullable { get; }       // NEW: element nullability
+
+        public bool IsValid { get; }
+        public IReadOnlyList<Diagnostic> Diagnostics { get; }
+        public ProvenanceStack ProvenanceStack { get; }
+
+        public ParameterDto(
+            string parameterName,
+            string? qualifiedClassName,
+            string? qualifiedInterfaceName,
+            bool isArray,
+            bool isNullable,
+            bool elementIsNullable,
+            bool isValid,
+            IReadOnlyList<Diagnostic>? diagnostics,
+            ProvenanceStack provenanceStack)
+        {
+            parameterName.EnsureValidIdentifier(nameof(parameterName));
+            ParameterName = parameterName;
+
+            if (!string.IsNullOrWhiteSpace(qualifiedClassName) && !string.IsNullOrWhiteSpace(qualifiedInterfaceName))
+                throw new ArgumentException("Parameter cannot specify both QualifiedClassName and QualifiedInterfaceName.");
+
+            if (!string.IsNullOrWhiteSpace(qualifiedClassName))
+                qualifiedClassName.EnsureQualifiedName(nameof(qualifiedClassName));
+            QualifiedClassName = qualifiedClassName;
+
+            if (!string.IsNullOrWhiteSpace(qualifiedInterfaceName))
+            {
+                qualifiedInterfaceName.EnsureQualifiedName(nameof(qualifiedInterfaceName));
+                var shortName = qualifiedInterfaceName.ExtractShortName();
+                if (!shortName.IsInterfaceName())
+                    throw new ArgumentException("QualifiedInterfaceName must resolve to a valid interface name.", nameof(qualifiedInterfaceName));
+            }
+            QualifiedInterfaceName = qualifiedInterfaceName;
+
+            IsArray = isArray;
+            IsNullable = isNullable;
+            ElementIsNullable = elementIsNullable;   // NEW
+
+            IsValid = isValid;
+            Diagnostics = (diagnostics ?? Array.Empty<Diagnostic>()).ToList().AsReadOnly();
+
+            if (provenanceStack is null || ProvenanceStackEntriesEmpty(provenanceStack))
+                throw new ArgumentException("Provenance stack must be provided and non-empty.", nameof(provenanceStack));
+            ProvenanceStack = provenanceStack;
+        }
+
+        private static bool ProvenanceStackEntriesEmpty(ProvenanceStack stack) => stack.Entries == null || stack.Entries.Count == 0;
+    }
+}
+namespace DdiCodeGen.Dtos.Canonical;
+
+public sealed record ProvenanceOrigin(
+    string SourcePath,        // "<in-memory>" when not from a file
+    int LineZeroBased,        // 0 when not available
+    int? ColumnZeroBased,     // optional
+    string LogicalPath        // required, non-empty
+);
+
+public sealed record ProvenanceEntry(
+    ProvenanceOrigin Origin,
+    string Stage,             // "parser", "normalizer", "generator", etc.
+    string Tool,              // e.g., "yaml-parser-v1"
+    DateTimeOffset When       // UTC timestamp
+);
+
+public sealed record ProvenanceStack(
+    int Version,
+    IReadOnlyList<ProvenanceEntry> Entries
+)
+{
+    public ProvenanceEntry Latest => Entries[^1];
+    public const int MinVersion = 1;
+}

@@ -91,7 +91,6 @@ public sealed record RawParameterDto(
 
 
 // Named instance references a fully qualified class token; order in the list is significant
-// Named instance references a fully qualified class token; order in the list is significant
 public sealed record RawNamedInstanceDto(
     string? NamedInstanceName,
 
@@ -120,17 +119,17 @@ public sealed record RawNamedInstanceDto(
 
 // Assignment nested under a named instance binds a parameter on that named instance's class
 public sealed record RawNamedInstanceAssignmentDto(
-    string? ParameterName,
-    string? AssignedValue,
-    string? AssignedNamedInstance,
+    string? AssignmentParameterName,
+    string? AssignmentValue,
+    string? AssignmentNamedInstanceName,
     RawProvenanceStack? ProvenanceStack,
     IReadOnlyList<Diagnostic> Diagnostics          // diagnostics for assignment mapping
 );
 
 // Optional collection element shape (use only if you need explicit element entries)
 public sealed record RawNamedInstanceElementDto(
-    string? Value,
-    string? AssignedNamedInstance,
+    string? AssignmentValue,
+    string? AssignmentNamedInstanceName,
     RawProvenanceStack? ProvenanceStack,
     IReadOnlyList<Diagnostic> Diagnostics          // diagnostics for element mapping
 );

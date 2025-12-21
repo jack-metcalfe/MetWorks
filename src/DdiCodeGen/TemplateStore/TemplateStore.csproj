@@ -10,13 +10,13 @@
 
   <ItemGroup>
     <!-- Use forward slashes for cross-platform globs -->
-    <EmbeddedResource Include="Templates/**/*.tplt">
+    <EmbeddedResource Include="Templates/**/*.hbs">
       <!-- Optional: set a logical name so you know the resource name exactly -->
       <LogicalName>$(AssemblyName).Templates.%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
 
     <!-- Ensure templates are not compiled as C# -->
-    <Compile Remove="Templates/**/*.tplt" />
+    <Compile Remove="Templates/**/*.hbs" />
   </ItemGroup>
 
   <!-- Diagnostic: fail build if any template files end up in Compile.

@@ -1,0 +1,29 @@
+// NamedInstanceAccessor.Function.NamedInstanceArray
+// Named-instance-array accessor for {{{NamedInstanceName}}}
+// {{GeneratedHeader}}
+#nullable enable
+/* Provenance: {{{Provenance}}} */
+
+namespace {{{Namespace}}}
+{
+    // Provides an accessor for arrays of named instances.
+    // Declared as partial to allow modularization across multiple files.
+    // Returns IReadOnlyList<T> for safety and immutability.
+    internal static partial class {{{NamedInstanceName}}}_Accessors
+    {
+        public static IReadOnlyList<{{QualifiedInterfaceOrClass}}> GetArray_{{NamedInstanceName}}(IServiceProvider provider)
+        {
+            var list = new List<{{QualifiedInterfaceOrClass}}>();
+
+            {{#each Elements}}
+            var service = provider.GetService(typeof({{ElementQualifiedClassNameRaw}}));
+            if (service == null)
+                throw new InvalidOperationException($"Service for {{ElementQualifiedClassNameRaw}} not found in provider.");
+            var element = ({{../QualifiedInterfaceOrClass}})service;
+            list.Add(element);
+            {{/each}}
+
+            return list;
+        }
+    }
+}

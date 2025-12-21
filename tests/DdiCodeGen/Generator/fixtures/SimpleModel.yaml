@@ -1,0 +1,43 @@
+codeGen:
+  generatedCodePath: ./out
+  registryClassName: SimpleRegistry
+  namespaceName: MyNamespace
+  initializerName: InitAll
+  packageReferences:
+    - id: ExampleLib
+      version: "1.0.0"
+    - id: AnotherLib
+      version: null
+
+namespaces:
+  - namespaceName: MyNamespace
+    interfaces:
+      - interfaceName: IMarker
+    classes:
+      - className: FooClass
+        qualifiedInterfaceName: null
+        initializerParameters:
+          - parameterName: ParamA
+            qualifiedClassName: MyNamespace.BarClass[]
+            qualifiedInterfaceName: null
+          - parameterName: ParamB
+            qualifiedClassName: null
+            qualifiedInterfaceName: MyNamespace.IMarker?
+
+namedInstances:
+  - namedInstanceName: Foo
+    qualifiedClassName: MyNamespace.FooClass
+    assignments:
+      - parameterName: ParamA
+        assignedValue: "42"
+        assignedNamedInstance: null
+      - parameterName: ParamB
+        assignedValue: null
+        assignedNamedInstance: Bar
+    elements: []
+  - namedInstanceName: Bar
+    qualifiedClassName: MyNamespace.BarClass[]
+    assignments: []   # parameterless → must be empty
+    elements:
+      - assignedValue: "gamma"
+        assignedNamedInstance: Foo
