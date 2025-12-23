@@ -6,7 +6,7 @@ Monorepo for MetWorks projects. Each assembly lives under `src/<AssemblyName>` a
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/MetWorks.git
+   git clone https://github.com/jack-metcalfe/MetWorks.git
    cd MetWorks
    ```
 
