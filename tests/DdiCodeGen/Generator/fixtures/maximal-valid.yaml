@@ -394,7 +394,7 @@ namedInstances:
     qualifiedClassName: "Settings.SettingConfiguration"
     assignments:
       - parameterName: "defaultValue"
-        assignedValue: "emptyString"
+        assignedValue: "Host=sampleIP;Username=sampleUser;Password=samplePassword;Database=sampleDatabase;SslMode=Disable"
       - parameterName: "description"
         assignedValue: "Connection string for save weather data to Postgres"
       - parameterName: "expectedValueType"

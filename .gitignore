@@ -436,3 +436,7 @@ obj/
 
 generated/
 
+# Personal files - keep local but don't commit
+.act.env
+docs/journal/
+docs/*.odt
