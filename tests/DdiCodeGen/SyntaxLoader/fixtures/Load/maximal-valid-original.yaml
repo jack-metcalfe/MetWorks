@@ -116,31 +116,6 @@ namespace:
             class: null
             interface: "InterfaceDefinition.Settings.ISettingOverridesProvider"
 
-  # ========================================
-  # NEW: MetWorksWeather Services Namespace
-  # ========================================
-  - name: "MetWorksServices"
-    interface: []
-    class:
-      - name: "ProvenanceTracker"
-        interface: null
-        parameter:
-          - name: "iFileLogger"
-            class: null
-            interface: "InterfaceDefinition.IFileLogger"
-      - name: "WeatherDataTransformer"
-        interface: null
-        parameter:
-          - name: "iFileLogger"
-            class: null
-            interface: "InterfaceDefinition.IFileLogger"
-          - name: "iSettingsRepository"
-            class: null
-            interface: "InterfaceDefinition.ISettingsRepository"
-          - name: "provenanceTracker"
-            class: "MetWorksServices.ProvenanceTracker"
-            interface: null
-
   - name: "UdpInRawPacketRecordTypedOut"
     interface: []
     class:
@@ -155,11 +130,7 @@ namespace:
             interface: "InterfaceDefinition.ISettingsRepository"
           - name: "externalCancellationTokenSource"
             class: "System.Threading.CancellationTokenSource"
-            interface: null
-          # NEW: Optional provenance tracker parameter
-          - name: "provenanceTracker"
-            class: "MetWorksServices.ProvenanceTracker"
-            interface: null
+            interface: null  
 
   - name: "RawPacketRecordTypedInPostgresOut"
     interface: []
@@ -173,10 +144,6 @@ namespace:
           - name: "iSettingsRepository"
             class: null
             interface: "InterfaceDefinition.ISettingsRepository"
-          # NEW: Optional provenance tracker parameter
-          - name: "provenanceTracker"
-            class: "MetWorksServices.ProvenanceTracker"
-            interface: null
 
 instance:
   - name: "RootCancellationTokenSource"
@@ -208,17 +175,6 @@ instance:
       - name: "rollOnFileSizeLimit"
         literal: "true"
         instance: null
-    element: []
-
-  # ========================================
-  # NEW: ProvenanceTracker Instance
-  # ========================================
-  - name: "TheProvenanceTracker"
-    class: "MetWorksServices.ProvenanceTracker"
-    assignment:
-      - name: "iFileLogger"
-        literal: null
-        instance: "TheFileLogger"
     element: []
 
   - name: "TheUdpPortSetting"
@@ -503,23 +459,6 @@ instance:
         instance: "TheAppDataSettingOverridesProvider"
     element: []
 
-  # ========================================
-  # NEW: WeatherDataTransformer Instance
-  # ========================================
-  - name: "TheWeatherDataTransformer"
-    class: "MetWorksServices.WeatherDataTransformer"
-    assignment:
-      - name: "iFileLogger"
-        literal: null
-        instance: "TheFileLogger"
-      - name: "iSettingsRepository"
-        literal: null
-        instance: "TheUDPSettingsRepository"
-      - name: "provenanceTracker"
-        literal: null
-        instance: "TheProvenanceTracker"
-    element: []
-
   - name: "TheUdpListener"
     class: "UdpInRawPacketRecordTypedOut.Transformer"
     assignment:
@@ -532,10 +471,6 @@ instance:
       - name: "externalCancellationTokenSource"
         literal: null
         instance: "RootCancellationTokenSource"
-      # NEW: Wire up provenance tracker
-      - name: "provenanceTracker"
-        literal: null
-        instance: "TheProvenanceTracker"
     element: []
 
   - name: "ThePostgresConnection"
@@ -597,8 +532,4 @@ instance:
       - name: "iSettingsRepository"
         literal: null
         instance: "ThePostgresSettingsRepository"
-      # NEW: Wire up provenance tracker
-      - name: "provenanceTracker"
-        literal: null
-        instance: "TheProvenanceTracker"
     element: []

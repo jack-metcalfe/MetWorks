@@ -1250,19 +1250,6 @@ public sealed partial class Loader
             }
         }
         
-        Instance? parameterInstance = null;
-        if (haveParameterInstanceName)
-            parameterInstance = instanceDictionary.GetValueOrDefault(parameterInstanceName!);
-        
-        if (haveParameterInstanceName && parameterInstance is null)
-        {
-            localDiagnostics.Add(
-                diagnosticCode: DiagnosticCode.AssignmentInstanceNotFound,
-                message: $"Assignment namedInstance '{parameterInstanceName}' not found for parameter '{parameterName}'.",
-                location: location with { LogicalPath = $"{logicalPath}[@{tokenTypeName}='{parameterInstanceName}']" }
-            );
-        }
-
         if (!haveAssignmentLiteral && !haveParameterInstanceName)
         {
             if (foundParameter && !parameter!.IsNullable)
@@ -1290,7 +1277,8 @@ public sealed partial class Loader
             if (haveAssignmentLiteral)
                 if (!parameter!.IsArray)
                 {
-                    if (assignmentLiteralInferredClass!.Equals("String")) assignmentLiteral = $"\"{assignmentLiteral}\"";
+                    if (parameter.ClassQualified!.Equals("System.String", StringComparison.OrdinalIgnoreCase)) 
+                        assignmentLiteral = $"\"{assignmentLiteral}\"";
                     initializerParameterAssignmentClause = $"{parameterName}: {assignmentLiteral}";
                 }
                 else
@@ -1306,7 +1294,7 @@ public sealed partial class Loader
             else if (haveParameterInstanceName)
                 initializerParameterAssignmentClause = parameter!.IsArray
                     // ToDo: Kludge: More generation logic where it doesn't belong. Need to refactor later.
-                    ? $"{parameterName}: new {parameterInstance!.ClassQualified}[] {{registry.Get{parameterInstanceName}_Internal()}}"
+                    ? $"{parameterName}: registry.Get{parameterInstanceName}_Internal()"
                     : $"{parameterName}: registry.Get{parameterInstanceName}()";
             else
                 // No literal or instance specified
