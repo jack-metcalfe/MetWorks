@@ -58,6 +58,7 @@ public enum DiagnosticCode
     DuplicateParameter,
 
     // Named Instances (NIxxx)
+    InstanceClassNotFound,       // referenced class not found
     InstanceMissingName,
     InstanceMissingQualifiedClass,
     InstanceBothAssignmentsAndElementsSet,
@@ -167,6 +168,7 @@ public static class DiagnosticCodeInfo
         { DiagnosticCode.DuplicateParameter, DiagnosticSeverity.Error },
 
         // Named Instances
+        { DiagnosticCode.InstanceClassNotFound, DiagnosticSeverity.Error },
         { DiagnosticCode.InstanceMissingName, DiagnosticSeverity.Error },
         { DiagnosticCode.InstanceMissingQualifiedClass, DiagnosticSeverity.Error },
         { DiagnosticCode.InstanceBothAssignmentsAndElementsSet, DiagnosticSeverity.Error },
@@ -274,6 +276,7 @@ public static class DiagnosticCodeInfo
             { DiagnosticCode.DuplicateParameter, "Duplicate parameter name." },
 
             // Named Instances
+            { DiagnosticCode.InstanceClassNotFound, "Referenced class not found." },
             { DiagnosticCode.InstanceMissingName, "Named instance name is missing." },
             { DiagnosticCode.InstanceMissingQualifiedClass, "Named instance missing qualified class." },
             { DiagnosticCode.InstanceBothAssignmentsAndElementsSet, "Named instance cannot have both assignments and elements." },

@@ -1024,7 +1024,26 @@ public sealed partial class Loader
             );
         }
         else
+        {
             instanceClass = classDictionary.GetValueOrDefault(classQualified!);
+            if (instanceClass is null)
+            {
+                localDiagnostics.Add(
+                    diagnosticCode: DiagnosticCode.InstanceClassNotFound,
+                    message: $"Instance class '{classQualified}' not found for " +
+                             $"named instance '{instanceName}' in {logicalPath}.",
+                    location: location
+                );
+            }
+        }
+
+        if (instanceClass is null)
+        {
+            throw new InvalidOperationException(
+                $"Cannot continue parsing instance '{instanceName}' because " +
+                "its class could not be determined."
+            );
+        }
 
         List<Assignment>? assignments = new();
         if (localDiagnostics.Count == 0)
@@ -1310,6 +1329,13 @@ public sealed partial class Loader
 
         incomingDiagnostics.AddRange(localDiagnostics);
 
+        if (parameter is null)
+        {
+            throw new InvalidOperationException(
+                $"Cannot continue parsing assignment for parameter '{parameterName}' " +
+                "because the parameter could not be found on the class {}."
+            );
+        }
         return new Assignment(
             name: parameterName,
             literal: assignmentLiteral,
